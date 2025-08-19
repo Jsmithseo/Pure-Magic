@@ -67,6 +67,37 @@ export default function SocialPurposeInitiatives() {
         </Row>
       </Container>
 
+{/* PARTNERSHIP SECTION */}
+<Container className="my-5">
+  <Row className="align-items-center justify-content-center text-center text-md-start">
+    {/* Logo */}
+    <Col md={4} className="mb-3 mb-md-0 text-center">
+      <Link href="https://www.badd-sf.org/" target="_blank" rel="noopener noreferrer">
+        <img
+          src="/badd_logo.png"
+          alt="Partner Logo"
+          style={{ maxWidth: "200px", height: "auto", cursor: "pointer" }}
+        />
+      </Link>
+    </Col>
+
+    {/* Copy + CTA */}
+    <Col md={8}>
+      <h5 className="fw-bold mb-2">Our Partnership with BADD: Brothers Against Drug Deaths</h5>
+      <p style={{ fontSize: "1rem", lineHeight: "1.6" }}>
+      Recovery advocacy, mental health support, and justice, for those battling addiction and mental illness, particularly within Black and underserved communities.
+      </p>
+      <Link href="https://www.badd-sf.org/" target="_blank" rel="noopener noreferrer">
+        <Button color="dark" className="mt-3 px-4 py-2">
+          Visit Partner Website
+        </Button>
+      </Link>
+    </Col>
+  </Row>
+</Container>
+
+
+
       {/* CALL TO ACTION */}
       <Container className="my-5">
         <Row className="align-items-center g-0" style={{ background: "#f7fafd", borderRadius: 16, overflow: "hidden" }}>
