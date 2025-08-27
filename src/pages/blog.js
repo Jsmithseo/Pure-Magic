@@ -26,13 +26,13 @@ const posts = [
     image: "/images/blog3.jpg",
     date: "July 15, 2025"
   },
-  // {
-  //   id: 4,
-  //   title: "How Do Recruitment Agencies Work: Examining Their Role",
-  //   slug: "/blog/blog4",
-  //   image: "/images/blog4.jpg",
-  //   date: "July 20, 2025"
-  // },
+  {
+    id: 4,
+    title: "What “Whole-Person Care” Really Means (And Why It Works)",
+    slug: "/blog/blog4",
+    image: "/images/blog4.jpg",
+    date: "August 27, 2025"
+  },
 ];
 
 export default function BlogPage() {
