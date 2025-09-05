@@ -33,6 +33,13 @@ const posts = [
     image: "/images/blog4.jpg",
     date: "August 27, 2025"
   },
+  {
+    id: 5,
+    title: "Transitional Housing 101: What to Expect (Day by Day)",
+    slug: "/blog/blog5",
+    image: "/images/blog5.jpg",
+    date: "September 5 2025"
+  },
 ];
 
 export default function BlogPage() {
