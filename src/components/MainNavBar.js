@@ -52,7 +52,7 @@ const MainNavBar = () => {
                     {/* Events Dropdown */}
                     <UncontrolledDropdown nav inNavbar>
             <DropdownToggle nav caret style={navLinkStyle}>
-              Program
+              Programs
             </DropdownToggle>
             <DropdownMenu end>
               <DropdownItem>
