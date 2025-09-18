@@ -1,53 +1,166 @@
+// pages/blog/blog-employment-roadmap.js
 import React from "react";
 import Head from "next/head";
 import MainNavbar from "../../components/MainNavBar";
 import Footer from "../../components/Footer";
-import { Container, Row, Col } from "reactstrap";
+import { Container } from "reactstrap";
+import Link from "next/link";
 
-export default function BlogPost() {
+export default function EmploymentRoadmap() {
   return (
     <>
       <Head>
-        <title>Chapter 2: The Fearless Young Athlete</title>
+        <title>Employment Support After Treatment | Pathway Humanity</title>
         <meta
           name="description"
-          content="Fear is not your enemy — inaction is. Learn how young athletes can transform fear into fuel and rise to their competitive best."
+          content="A practical roadmap—from readiness to retention—to help you find and keep work that fits your recovery and mental health plan."
+        />
+        <meta
+          name="keywords"
+          content="employment after treatment, job readiness, resume help, interview prep, job retention"
         />
       </Head>
+
       <MainNavbar />
-      <Container className="mt-5 mb-5">
-        <Row>
-          <Col style={{ fontSize: "1.25rem", lineHeight: "1.8" }}>
-            <h1 className="mb-4">Chapter 2: The Fearless Young Athlete</h1>
-            <p>Fear is not your enemy, inaction is. If you want to develop your Competitive Performance Mindset and be able to access optimal states of performance, understand that you need to train your mind as much as you train your body. It’s about reminding that voice inside of you to step into challenging situations, embrace pressure and start teaching yourself you are stronger than your fear.</p>
-            <p>Every athlete, at some point has faced doubts and faced fears. The great athletes decide something crucial: that fear would not define them. Will fear define you? Or will you become fearless?</p>
-            <p>Fear is the silent, invisible opponent. Fear isn’t just something young athletes experience - it’s something they battle. It can sneak up on you before a big game, or settle in your mind after a mistake. In moments of doubt, fear can whisper in your ear, "What if you fail?" "What if you aren’t good enough?"</p>
-            <p>But here’s the truth: fear is not the enemy. Fear has a role to play in every young athlete’s journey, and when understood, it becomes your advantage rather than a weakness.</p>
 
-            <h3>The Role of Fear in Sports</h3>
-            <p>Fear is hard wired into our human nature. It serves an essential purpose. It protects us from danger and is a warning sign when we step into the unknown. In sports, fear is often a response to risk: the risk of losing, failure, judgment, or injury. The biggest source of fear? Look back to Chapter 1 — the fear of the unknown.</p>
-            <p>Fear can arise in many situations: performing in front of a crowd, facing a tough opponent, or stepping up during a crucial moment. Controlled fear prepares and focuses you. Uncontrolled fear paralyzes. Feeling fear is natural — there’s nothing wrong with you.</p>
+      <Container className="py-5">
+        <h1
+          className="mb-4 text-center fw-bold"
+          style={{ fontSize: "2.5rem", lineHeight: "1.3", color: "#fff" }}
+        >
+          From Surviving to Working: A Step-by-Step Employment Roadmap
+        </h1>
 
-            <h3>Personal Story: My First Encounter with Fear</h3>
-            <p>My first encounters with fear are easy for me to remember. Growing up I played all the sports. Basketball, baseball, football, soccer, cycling, bmx, track, high jumping, wrestling, boxing and diving, nordic skiing... [Full story content continues as provided by the user, integrated here completely for display.]</p>
+        <article
+          style={{
+            maxWidth: "850px",
+            margin: "0 auto",
+            lineHeight: "1.9",
+            fontSize: "1.25rem",
+            color: "#fff",
+          }}
+        >
+          <p>
+            Work can be a stabilizer: structure, income, purpose. It can also feel
+            overwhelming after a tough season. Here’s how we make the path back to
+            employment realistic and supportive.
+          </p>
 
-            <h3>Fear of Failure & External Judgment</h3>
-            <p>Fear of failure is common. Missing a shot, letting in a goal, or losing can feel unbearable. But failure is part of success. Athletes often fear what others think — coaches, teammates, parents. This can lead to playing cautiously and avoiding leadership. But confidence comes from preparation, hard work, and self-trust — not external approval.</p>
+          <h2 className="mt-4 mb-3" style={{ fontSize: "1.7rem" }}>
+            Stage 1: Readiness (build confidence first)
+          </h2>
+          <ul>
+            <li>
+              <strong>Energy &amp; schedule:</strong> try a volunteer shift or short
+              training to test stamina.
+            </li>
+            <li>
+              <strong>Paperwork:</strong> ID, Social Security card, bank account—one
+              document at a time.
+            </li>
+            <li>
+              <strong>Story practice:</strong> how to explain a gap with honesty and
+              dignity.
+            </li>
+          </ul>
 
-            <h3>Turning Fear into Fuel</h3>
-            <p>Fear is always present. Acknowledge it. Say, "I feel nervous because I care." Reframe fear as excitement. Don’t wait until you feel ready — act despite the fear. Courage isn’t the absence of fear — it’s movement in the face of it.</p>
-            <p>The greatest athletes — Jordan, Serena, Messi — have all faced fear and failure. What made them great was their decision not to let fear control them.</p>
+          <h2 className="mt-4 mb-3" style={{ fontSize: "1.7rem" }}>
+            Stage 2: Tools that open doors
+          </h2>
+          <ul>
+            <li>
+              <strong>Skills inventory:</strong> what you’re good at + what you enjoy.
+            </li>
+            <li>
+              <strong>Resume refresh:</strong> simple, readable, strengths-forward.
+            </li>
+            <li>
+              <strong>References:</strong> choose people who’ve seen you show up
+              recently (coach, volunteer lead, counselor).
+            </li>
+          </ul>
 
-            <div style={{ border: '2px solid #444', padding: '1rem', borderRadius: '8px', backgroundColor: '#f9f9f9', marginTop: '2rem' }}>
-              <h3>Assignment #3</h3>
-              <p><strong>Open your journal and find the next blank page. At the top, write:</strong> "Why do you do your sport?"</p>
-              <p>Look at your answers from Assignment 1. Go deeper. Add more details, feelings, and insights. This is your moment to refine your WHY.</p>
-              <p><em>There are no wrong answers — only your truth. Take your time, reflect honestly, and keep building your inner strength. You've got this!</em></p>
-            </div>
+          <h2 className="mt-4 mb-3" style={{ fontSize: "1.7rem" }}>
+            Stage 3: Interviews without the panic
+          </h2>
+          <ul>
+            <li>
+              <strong>Mock interviews</strong> with feedback on answers, tone, and body
+              language.
+            </li>
+            <li>
+              <strong>Scripts for tough questions:</strong> “Tell me about a challenge”
+              or “I see a gap here.”
+            </li>
+            <li>
+              <strong>Transportation plan</strong> and time buffer so you arrive calm,
+              not rushed.
+            </li>
+          </ul>
 
-          </Col>
-        </Row>
+          <h2 className="mt-4 mb-3" style={{ fontSize: "1.7rem" }}>
+            Stage 4: The first 30 days on the job
+          </h2>
+          <ul>
+            <li>
+              <strong>A written success plan:</strong> who to ask for help, how to ask,
+              and what to do on a hard day.
+            </li>
+            <li>
+              <strong>Check-ins</strong> (text or quick calls) to troubleshoot early
+              bumps.
+            </li>
+            <li>
+              <strong>Budget basics</strong> so the new income helps you move forward.
+            </li>
+          </ul>
+
+          <h2 className="mt-4 mb-3" style={{ fontSize: "1.7rem" }}>
+            Stage 5: Retention &amp; growth
+          </h2>
+          <ul>
+            <li>
+              <strong>Boundary setting</strong> to protect recovery time (sleep,
+              meetings, appointments).
+            </li>
+            <li>
+              <strong>Pathways to training or promotions</strong> if you want them.
+            </li>
+            <li>
+              <strong>A gentle plan if a job ends</strong>—how to regroup and restart
+              quickly.
+            </li>
+          </ul>
+
+          <h2 className="mt-4 mb-3" style={{ fontSize: "1.7rem" }}>
+            Common questions
+          </h2>
+          <p>
+            <strong>What if I relapse or need time off for treatment?</strong> We help
+            you communicate early and connect to resources; your health comes first.
+          </p>
+          <p>
+            <strong>Do you place people directly?</strong> We partner with employers and
+            community orgs; fit and timing vary. The goal is the right job, not just the
+            fastest one.
+          </p>
+
+          <hr style={{ borderColor: "rgba(255,255,255,0.2)" }} />
+
+          <p className="mt-4">
+            <strong>CTA:</strong> Ready to build your employment plan?{" "}
+            <Link href="/contact" style={{ color: "#20c997", textDecoration: "underline" }}>
+              Book a Job Readiness Session
+            </Link>{" "}
+            — we’ll leave you with next steps you can do this week.
+          </p>
+
+          <p style={{ fontSize: "0.95rem", opacity: 0.85 }}>
+            This post is informational only and not legal or medical advice.
+          </p>
+        </article>
       </Container>
+
       <Footer />
     </>
   );

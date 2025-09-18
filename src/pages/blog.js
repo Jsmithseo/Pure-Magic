@@ -6,32 +6,11 @@ import { Container, Row, Col, Card, CardBody, CardTitle, CardText, Button, CardI
 
 const posts = [
   {
-    id: 1,
-    title: "Bay Area Food Insecurity: A Crisis in the Midst of Plenty",
-    slug: "/blog/blog1",
-    image: "/images/blog1.jpg",
-    date: "July 10, 2025"
-  },
-  {
-    id: 2,
-    title: "Mentoring is important to helping our youth",
-    slug: "/blog/blog2",
-    image: "/images/blog2.jpg",
-    date: "July 12, 2025"
-  },
-  {
-    id: 3,
-    title: "What is Transitional Housing?",
-    slug: "/blog/blog3",
-    image: "/images/blog3.jpg",
-    date: "July 15, 2025"
-  },
-  {
-    id: 4,
-    title: "What “Whole-Person Care” Really Means (And Why It Works)",
-    slug: "/blog/blog4",
-    image: "/images/blog4.jpg",
-    date: "August 27, 2025"
+    id: 6,
+    title: " From Surviving to Working: A Step-by-Step Employment Roadmap",
+    slug: "/blog/blog6",
+    image: "/images/blog6.jpg",
+    date: "September 18 2025"
   },
   {
     id: 5,
@@ -40,6 +19,37 @@ const posts = [
     image: "/images/blog5.jpg",
     date: "September 5 2025"
   },
+  {
+    id: 4,
+    title: "What “Whole-Person Care” Really Means (And Why It Works)",
+    slug: "/blog/blog4",
+    image: "/images/blog4.jpg",
+    date: "August 27, 2025"
+  },
+    {
+    id: 2,
+    title: "Mentoring is important to helping our youth",
+    slug: "/blog/blog2",
+    image: "/images/blog2.jpg",
+    date: "July 12, 2025"
+  },
+
+  {
+    id: 1,
+    title: "Bay Area Food Insecurity: A Crisis in the Midst of Plenty",
+    slug: "/blog/blog1",
+    image: "/images/blog1.jpg",
+    date: "July 10, 2025"
+  },
+
+  {
+    id: 3,
+    title: "What is Transitional Housing?",
+    slug: "/blog/blog3",
+    image: "/images/blog3.jpg",
+    date: "July 15, 2025"
+  },
+  
 ];
 
 export default function BlogPage() {
