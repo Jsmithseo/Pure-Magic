@@ -6,6 +6,13 @@ import { Container, Row, Col, Card, CardBody, CardTitle, CardText, Button, CardI
 
 const posts = [
   {
+    id: 7,
+    title: "How to Talk About an Employment Gap After Treatment ",
+    slug: "/blog/blog9",
+    image: "/images/blog7.jpg",
+    date: "September 25 2025"
+  },  
+  {
     id: 6,
     title: " From Surviving to Working: A Step-by-Step Employment Roadmap",
     slug: "/blog/blog6",
