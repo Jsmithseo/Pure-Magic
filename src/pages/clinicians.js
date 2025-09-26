@@ -17,11 +17,6 @@ export default function Schedule() {
       role: "CADC-II, ICADC, SAP",
       link: "https://www.tebra.com/care/provider/melissa-robinson-cadc-ii-icadc-sap-1144767757",
     },
-    {
-      name: "Jeanie Croshaw",
-      role: "Addiction Psychiatrist",
-      link: "https://www.tebra.com/care/provider/jeanie-croshaw-do-1659751337",
-    },
   ];
 
   return (
