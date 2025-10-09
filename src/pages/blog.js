@@ -6,6 +6,13 @@ import { Container, Row, Col, Card, CardBody, CardTitle, CardText, Button, CardI
 
 const posts = [
   {
+    id: 8,
+    title: "Five Everyday Practices to Stabilize Mental Wellness",
+    slug: "/blog/blog10",
+    image: "/images/blog8.jpg",
+    date: "October 9 2025"
+  }, 
+  {
     id: 7,
     title: "How to Talk About an Employment Gap After Treatment ",
     slug: "/blog/blog9",
@@ -33,6 +40,14 @@ const posts = [
     image: "/images/blog4.jpg",
     date: "August 27, 2025"
   },
+
+  {
+    id: 3,
+    title: "What is Transitional Housing?",
+    slug: "/blog/blog3",
+    image: "/images/blog3.jpg",
+    date: "July 15, 2025"
+  },
     {
     id: 2,
     title: "Mentoring is important to helping our youth",
@@ -47,14 +62,6 @@ const posts = [
     slug: "/blog/blog1",
     image: "/images/blog1.jpg",
     date: "July 10, 2025"
-  },
-
-  {
-    id: 3,
-    title: "What is Transitional Housing?",
-    slug: "/blog/blog3",
-    image: "/images/blog3.jpg",
-    date: "July 15, 2025"
   },
   
 ];
