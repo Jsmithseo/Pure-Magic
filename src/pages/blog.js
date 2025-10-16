@@ -6,6 +6,13 @@ import { Container, Row, Col, Card, CardBody, CardTitle, CardText, Button, CardI
 
 const posts = [
   {
+    id: 9,
+    title: "The 10-Minute Reset for Overwhelming Days",
+    slug: "/blog/blog11",
+    image: "/images/blog9.jpg",
+    date: "October 16 2025"
+  }, 
+  {
     id: 8,
     title: "Five Everyday Practices to Stabilize Mental Wellness",
     slug: "/blog/blog10",
