@@ -1,5 +1,6 @@
 // pages/contact.js
-import React, { useState } from "react";
+"use client";
+import React, { useState, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import {
   Container, Row, Col, Card, CardBody, Button,
@@ -10,7 +11,7 @@ import Footer from "../components/Footer";
 
 const HUBSPOT_PORTAL_ID = "243400623";
 const HUBSPOT_FORM_ID = "797c76ae-ca8a-47a3-82dd-d530a6e0c313";
-const RECAPTCHA_SITE_KEY = "6LeQUZ8rAAAAAGSsXvs6u2QdeamqIiofil95StUo"
+const RECAPTCHA_SITE_KEY = "6LeQUZ8rAAAAAGSsXvs6u2QdeamqIiofil95StUo";
 
 export default function Contact() {
   const [fields, setFields] = useState({
@@ -21,6 +22,7 @@ export default function Contact() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const recaptchaRef = useRef(null);
 
   const handleChange = (e) => setFields({ ...fields, [e.target.name]: e.target.value });
 
@@ -37,14 +39,20 @@ export default function Contact() {
 
     const endpoint = `https://api.hsforms.com/submissions/v3/integration/submit/${HUBSPOT_PORTAL_ID}/${HUBSPOT_FORM_ID}`;
 
+    // If the HubSpot tracking cookie exists, include it
+    const hutk = (document.cookie.match(/(?:^|;\s*)hubspotutk=([^;]*)/) || [])[1] || undefined;
+
     const payload = {
+      // Map your local fields to HubSpot fields
       fields: Object.entries(fields).map(([name, value]) => ({ name, value })),
+      // ✅ IMPORTANT: token belongs at the top level, not inside context
+      hs_recaptcha_response: recaptchaToken,
       context: {
         pageUri: typeof window !== "undefined" ? window.location.href : "",
         pageName: typeof document !== "undefined" ? document.title : "Contact",
-        // Include token in case you want to inspect/log it server-side later
-        recaptchaToken,
+        ...(hutk ? { hutk } : {}),
       },
+      // If your HubSpot form uses GDPR consent fields, add legalConsentOptions here.
     };
 
     try {
@@ -53,8 +61,9 @@ export default function Contact() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+
       const body = await res.json();
-      console.error("HubSpot response:", body);
+      // console.log("HubSpot response:", body);
 
       if (res.ok) {
         setSubmitted(true);
@@ -63,13 +72,16 @@ export default function Contact() {
           company: "", subject: "", message: "",
         });
         setRecaptchaToken(null);
+        recaptchaRef.current?.reset();
       } else {
-        const msg = body.errors?.[0]?.message || JSON.stringify(body);
+        const msg =
+          body?.errors?.[0]?.message ||
+          body?.message ||
+          (typeof body === "string" ? body : "Submission failed.");
         setError(msg);
       }
     } catch (err) {
-      console.error(err);
-      setError(err.message);
+      setError(err.message || "Network error");
     } finally {
       setSubmitting(false);
     }
@@ -78,7 +90,7 @@ export default function Contact() {
   return (
     <>
       <MainNavBar />
-      {/* HERO SECTION (unchanged) */}
+      {/* HERO SECTION */}
       <div
         style={{
           background: `linear-gradient(rgba(42,48,56,.40),rgba(42,48,56,.40)), url('/images/hero_contact.jpg') center/cover no-repeat`,
@@ -95,7 +107,7 @@ export default function Contact() {
         </Container>
       </div>
 
-      {/* FORM SECTION */}
+        {/* FORM SECTION */}
       <Container className="my-5">
         <Row className="gy-4 justify-content-center">
           <Col md={10} lg={8}>
@@ -158,6 +170,7 @@ export default function Contact() {
                     {/* CAPTCHA */}
                     <div className="d-flex justify-content-center my-3">
                       <ReCAPTCHA
+                        ref={recaptchaRef}
                         sitekey={RECAPTCHA_SITE_KEY}
                         onChange={(token) => setRecaptchaToken(token)}
                         onExpired={() => setRecaptchaToken(null)}
@@ -177,7 +190,7 @@ export default function Contact() {
         </Row>
       </Container>
 
-      {/* CONTACT INFO & MAP (unchanged) */}
+      {/* CONTACT INFO & MAP (your existing content can stay here) */}
       <Container className="mt-5 mb-5">
         {/* ... */}
       </Container>
