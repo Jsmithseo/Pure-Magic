@@ -65,6 +65,11 @@ const MainNavBar = () => {
                   <a className="dropdown-item">Social Purpose Initiatives</a>
                 </Link>
               </DropdownItem>
+              <DropdownItem>
+                <Link href="/mentorship-program" passHref legacyBehavior>
+                  <a className="dropdown-item">Mentorship Program</a>
+                </Link>
+              </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
           <NavItem>
@@ -84,11 +89,6 @@ const MainNavBar = () => {
               Events
             </DropdownToggle>
             <DropdownMenu end>
-              <DropdownItem>
-                <Link href="/mentorship" passHref legacyBehavior>
-                  <a className="dropdown-item">Mentorship</a>
-                </Link>
-              </DropdownItem>
               <DropdownItem>
                 <Link href="/calendar" passHref legacyBehavior>
                   <a className="dropdown-item">Calendar Page</a>
