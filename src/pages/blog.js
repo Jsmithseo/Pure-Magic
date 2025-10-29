@@ -6,6 +6,13 @@ import { Container, Row, Col, Card, CardBody, CardTitle, CardText, Button, CardI
 
 const posts = [
   {
+    id: 10,
+    title: "Why Youth Mentorship Programs Matte",
+    slug: "/blog/blog12",
+    image: "/images/blog10.jpg",
+    date: "October 29 2025"
+  }, 
+  {
     id: 9,
     title: "The 10-Minute Reset for Overwhelming Days",
     slug: "/blog/blog11",
