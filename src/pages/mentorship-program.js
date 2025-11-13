@@ -1,7 +1,6 @@
 // pages/pathway-humanity.js
 import Head from "next/head";
 import React from "react";
-// If your app uses these shared components, keep them; otherwise remove.
 import MainNavBar from "../components/MainNavBar";
 import Footer from "../components/Footer";
 import { Container, Row, Col } from "reactstrap";
@@ -10,15 +9,15 @@ export default function PathwayHumanity() {
   return (
     <>
       <Head>
-        <title>Pathway Humanity — Empowering Youth</title>
+        <title>Pathway Humanity — Mentorship Program Overview</title>
         <meta
           name="description"
-          content="Mentorship for high-school students in Richmond & Antioch: drug awareness, life skills, academic support, constructive activities, and stipends."
+          content="Pathway Humanity’s mentorship program in Richmond & Antioch provides guidance, life skills, and clear pathways into education, apprenticeships, or the workforce."
         />
-        <meta property="og:title" content="Pathway Humanity — Empowering Youth" />
+        <meta property="og:title" content="Pathway Humanity — Mentorship Program Overview" />
         <meta
           property="og:description"
-          content="One-on-one mentorship, skill-building workshops, educational support, community activities, and stipends."
+          content="Goal setting, skills workshops, job shadowing, networking, mock interviews, and incentives including stipends, college fee support, internships, and employment pathways."
         />
         <meta property="og:type" content="website" />
       </Head>
@@ -30,23 +29,21 @@ export default function PathwayHumanity() {
         <img
           className="hero-img"
           src="/images/pathway-humanity-hero.jpg"
-          alt="Group of smiling high-school students — Pathway Humanity"
+          alt="Mentor speaking with students — Pathway Humanity"
         />
         <div className="hero-overlay" />
         <Container className="hero-inner">
           <Row>
-            <Col lg={{ size: 8 }}>
+            <Col lg={{ size: 9 }}>
               <h1>
-                PATHWAY HUMANITY:<br />
-                <span>EMPOWERING YOUTH</span>
+                PATHWAY HUMANITY<br />
+                <span>MENTORSHIP PROGRAM OVERVIEW</span>
               </h1>
               <p className="lead">
-                Pathway Humanity offers a mentorship program for high-school students in{" "}
-                <strong>Richmond</strong> and <strong>Antioch</strong>. We educate young people
-                about the dangers of opioids, alcohol, and other prevalent community drugs. In
-                addition to raising drug awareness, we provide essential life skills and deliver
-                avenues for a brighter future through career development, apprenticeship programs,
-                college preparedness, and cash stipends.
+                Pathway Humanity runs a comprehensive mentorship program in <strong>Richmond</strong> and{" "}
+                <strong>Antioch</strong>, California. Our mission is to disrupt cycles of hardship by providing
+                participants with support, essential life skills, and clear direction toward continued education
+                or workforce entry.
               </p>
             </Col>
           </Row>
@@ -58,65 +55,78 @@ export default function PathwayHumanity() {
         <Container>
           <Row>
             <Col lg={{ size: 10, offset: 1 }}>
-              <h2>Key Program Benefits:</h2>
-              <ul className="benefits">
+              <h2>Key Information</h2>
+              <ul className="bullets">
                 <li>
-                  <strong>One-on-one mentorship:</strong> Individualized skill development
+                  <strong>Goal:</strong> Provide the guidance and mentorship necessary for participants to achieve
+                  stability and successfully transition to either advanced education or direct entry into the
+                  workforce/apprenticeship programs.
                 </li>
                 <li>
-                  <strong>Skill-building workshops:</strong> Practice essential skills
+                  <strong>Curriculum:</strong> Structured activities including <em>Goal Setting Sessions</em>,{" "}
+                  <em>Skills-Based Workshops</em>, <em>Job Shadowing</em>, <em>Networking Events</em>,{" "}
+                  <em>Career Development Discussions</em>, and <em>Mock Interviews</em>, supplemented by
+                  communication and ethics training.
                 </li>
                 <li>
-                  <strong>Educational support:</strong> Improve academics
+                  <strong>Mentee Engagement:</strong> Participants are encouraged to be receptive to feedback, apply
+                  new insights, clearly articulate their needs, and maximize participation.
                 </li>
                 <li>
-                  <strong>Constructive community activities:</strong> Apply skills in real-world settings
-                </li>
-                <li>
-                  <strong>Stipends:</strong> Graduates earn cash and scholarships for college application fees
+                  <strong>Incentives for Success:</strong> Completion may include stipends for basic living expenses,
+                  coverage of college application fees, admittance into internships, guaranteed employment
+                  opportunities with high-demand employers, and a celebratory field trip.
                 </li>
               </ul>
 
               <hr className="rule" />
 
-              <div className="warning">
-                <div className="icon" aria-hidden>⚠️</div>
-                <div>
-                  <p className="warning-title">Important Warning</p>
-                  <p>
-                    Fentanyl, a strong synthetic opioid, is popping up in other drugs more and more,
-                    and even a tiny bit can be deadly. Fake pills can look, feel, and even smell
-                    exactly like real ones. If you didn’t get a pill from a licensed pharmacy,
-                    assume it’s fake.
-                  </p>
-                </div>
-              </div>
+              <h2>Community Support</h2>
+              <p>
+                The initiative adopts a holistic approach that extends beyond mentorship to meet real community needs.
+              </p>
+              <ul className="bullets">
+                <li>
+                  <strong>Substance Misuse / Relapse Prevention:</strong> Prevention education, facilitated access
+                  to treatment, and ongoing support.
+                </li>
+                <li>
+                  <strong>Community Training:</strong> Specialized training for frontline staff and widely accessible
+                  workshops on overdose recognition and response, including instruction on <em>Naloxone</em> administration.
+                </li>
+              </ul>
 
               <hr className="rule" />
 
-              <div className="contact">
-                <p>To learn more about our mentorship program, please contact <strong>Pathway Humanity</strong>:</p>
-                <ul className="contact-list">
-                  <li>
-                    Phone:{" "}
-                    <a href="tel:+18887107760" aria-label="Phone">
-                      (888) 710-7760
-                    </a>
-                  </li>
-                  <li>
-                    Website:{" "}
-                    <a href="https://pathwayhumanity.com" target="_blank" rel="noopener noreferrer">
-                      pathwayhumanity.com
-                    </a>
-                  </li>
-                </ul>
+              <h2>Why Join</h2>
+              <p>
+                Our mentorship program connects emerging talent with seasoned professionals across fields, providing
+                guidance, essential insights, and a strong, supportive network. Mentees learn to navigate career paths,
+                build leadership and communication skills, and accelerate their learning curve—while mentors give back by
+                sharing experience around skills development, work-life balance, and industry challenges.
+              </p>
+
+              <div className="cta">
+                <p className="cta-title">Take the First Step</p>
+                <p>
+                  To participate in this highly sought-after program, please reach out directly. All inquiries and
+                  expressions of interest should be emailed to:
+                </p>
+                <p>
+                  <a className="cta-link" href="mailto:info@pathwayhumanity.com">info@pathwayhumanity.com</a>
+                </p>
+                <p>
+                  A representative from Pathway Humanity will follow up promptly with details on the application process,
+                  program structure, and timelines. Don’t miss this chance to invest in your future—or give back to the
+                  next generation of leaders.
+                </p>
               </div>
             </Col>
           </Row>
         </Container>
       </section>
 
-      {/* ADDRESS STRIP (matches flyer footer bar) */}
+      {/* ADDRESS STRIP (optional footer bar) */}
       <section className="address-strip" aria-label="Organization address">
         <Container>
           <Row>
@@ -131,9 +141,7 @@ export default function PathwayHumanity() {
 
       {typeof Footer === "function" ? <Footer /> : null}
 
-
       <style jsx>{`
-    
         :root {
           --teal: #14a2a1;
           --teal-dark: #118c8b;
@@ -160,7 +168,6 @@ export default function PathwayHumanity() {
         .hero-overlay {
           position: absolute;
           inset: 0;
-          background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.85) 100%);
         }
         .hero-inner {
           position: relative;
@@ -175,9 +182,7 @@ export default function PathwayHumanity() {
           letter-spacing: 0.2px;
           text-transform: uppercase;
         }
-        h1 span {
-          color: #fff;
-        }
+        h1 span { color: #fff; }
         .lead {
           font-size: 1.125rem;
           color: rgba(255,255,255,0.92);
@@ -193,13 +198,13 @@ export default function PathwayHumanity() {
           font-size: 1.5rem;
           font-weight: 800;
           text-transform: uppercase;
-          margin-bottom: 18px;
+          margin-bottom: 16px;
         }
-        .benefits {
-          margin: 0 0 28px 0;
+        .bullets {
+          margin: 0 0 26px 0;
           padding-left: 1.25rem;
         }
-        .benefits li {
+        .bullets li {
           margin: 0 0 10px 0;
           line-height: 1.55;
           font-size: 1.02rem;
@@ -210,25 +215,24 @@ export default function PathwayHumanity() {
           margin: 26px 0;
         }
 
-        .warning {
-          background: #fff8e6;
-          border: 1px solid #f0d48a;
+        .cta {
+          background: #f7fffd;
+          border: 1px solid #d7f0ea;
           border-radius: 12px;
           padding: 16px 18px;
-          display: grid;
-          grid-template-columns: 28px 1fr;
-          gap: 12px;
         }
-        .warning-title {
+        .cta-title {
+          margin: 0 0 6px;
           font-weight: 800;
-          margin: 0 0 4px;
+          color: var(--teal-dark);
+          text-transform: uppercase;
+          letter-spacing: .02em;
         }
-        .icon { font-size: 22px; line-height: 1; }
-
-        .contact p { margin-bottom: 6px; }
-        .contact-list { padding-left: 1.25rem; margin: 0; }
-        .contact-list li { margin: 6px 0; }
-        .contact a { color: var(--teal-dark); text-decoration: underline; }
+        .cta-link {
+          color: var(--teal-dark);
+          text-decoration: underline;
+          font-weight: 700;
+        }
 
         .address-strip {
           background: var(--teal);
@@ -236,10 +240,7 @@ export default function PathwayHumanity() {
           padding: 14px 0;
           font-size: 0.95rem;
         }
-        .address-strip p {
-          margin: 0;
-          text-align: left;
-        }
+        .address-strip p { margin: 0; text-align: left; }
 
         @media (max-width: 992px) {
           .hero { min-height: 56vh; }
@@ -247,21 +248,15 @@ export default function PathwayHumanity() {
           .lead { font-size: 1rem; }
         }
 
+        /* optional tighter hero height bounds */
         .hero {
-            position: relative;
-            height: 56vh;          /* adjust as needed */
-            min-height: 600px;
-            max-height: 780px;
-            overflow: hidden;
-          }
-          .hero img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;     /* fills container */
-            object-position: 50% 45%; /* nudge focal point if needed */
-            display: block;
-          }
-          @media (max-width: 992px) { .hero { height: 48vh; min-height: 360px; } }
+          height: 56vh;
+          min-height: 520px;
+          max-height: 780px;
+        }
+        @media (max-width: 992px) {
+          .hero { height: 48vh; min-height: 360px; }
+        }
       `}</style>
     </>
   );
