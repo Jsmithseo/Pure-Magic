@@ -50,11 +50,16 @@ export default function PathwayHumanity() {
         </Container>
       </section>
 
+      {/* IMAGE BAND (full-bleed banner image with optional caption) */}
+
       {/* CONTENT */}
       <section className="content">
         <Container>
           <Row>
+           
             <Col lg={{ size: 10, offset: 1 }}>
+            <h2>Mentorship Pathway to Purpose - Building Futures for our Youth</h2>
+            <br></br>
               <h2>Key Information</h2>
               <ul className="bullets">
                 <li>
@@ -126,7 +131,7 @@ export default function PathwayHumanity() {
         </Container>
       </section>
 
-      {/* ADDRESS STRIP (optional footer bar) */}
+      {/* ADDRESS STRIP */}
       <section className="address-strip" aria-label="Organization address">
         <Container>
           <Row>
@@ -189,6 +194,40 @@ export default function PathwayHumanity() {
           margin: 0;
         }
 
+        /* IMAGE BAND */
+        .image-band {
+          position: relative;
+          background: #000;
+        }
+        .image-wrap {
+          position: relative;
+          max-width: 1400px;
+          margin: 0 auto;
+          /* 21:9-ish banner ratio that shrinks nicely */
+          aspect-ratio: 21 / 9;
+          width: 100%;
+        }
+        .image-wrap img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+        .image-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, rgba(0,0,0,.10) 0%, rgba(0,0,0,.35) 100%);
+        }
+        .image-caption {
+          position: absolute;
+          left: 18px;
+          bottom: 14px;
+          color: #fff;
+          font-weight: 700;
+          letter-spacing: .02em;
+          text-shadow: 0 2px 8px rgba(0,0,0,.35);
+        }
+
         .content {
           background: var(--paper);
           padding: 56px 0 72px;
@@ -246,6 +285,7 @@ export default function PathwayHumanity() {
           .hero { min-height: 56vh; }
           .hero-inner { padding: 48px 0; }
           .lead { font-size: 1rem; }
+          .image-wrap { aspect-ratio: 16 / 9; }
         }
 
         /* optional tighter hero height bounds */
