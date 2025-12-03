@@ -17,6 +17,13 @@ import {
 const posts = [
   {
     id: 11,
+    title: "Talking to Teens About Mental Health",
+    slug: "/blog/blog14",
+    image: "/images/blog12.jpg", // put your 414x275 img here when you upload it
+    date: "December 3 2025",
+  },
+  {
+    id: 11,
     title: "Men’s Mental Health Matters",
     slug: "/blog/blog13",
     image: "/images/blog11.jpg", // put your 414x275 img here when you upload it
@@ -24,7 +31,7 @@ const posts = [
   },
   {
     id: 10,
-    title: "Why Youth Mentorship Programs Matte",
+    title: "Why Youth Mentorship Programs Matter",
     slug: "/blog/blog12",
     image: "/images/blog10.jpg",
     date: "October 29 2025",
