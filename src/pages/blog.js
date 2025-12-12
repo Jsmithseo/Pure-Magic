@@ -16,7 +16,14 @@ import {
 
 const posts = [
   {
-    id: 11,
+    id: 13,
+    title: "Helping Young Adults Navigate Anxiety in the Digital Age",
+    slug: "/blog/blog15",
+    image: "/images/blog13.jpg", // put your 414x275 img here when you upload it
+    date: "December 12 2025",
+  },
+  {
+    id: 12,
     title: "Talking to Teens About Mental Health",
     slug: "/blog/blog14",
     image: "/images/blog12.jpg", // put your 414x275 img here when you upload it
