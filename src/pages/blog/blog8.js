@@ -136,7 +136,7 @@ export default function RaceBlogPost() {
             </p>
 
             <div className="text-center my-5">
-              <Link href="/contact" passHref>
+              <Link href="/contact">
                 <Button color="primary" size="lg">
                   Contact Us to Learn More
                 </Button>

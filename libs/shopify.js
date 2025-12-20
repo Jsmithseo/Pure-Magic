@@ -1,0 +1,27 @@
+export async function shopifyFetch(query, variables = {}) {
+    const token = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN;
+    const domain = process.env.SHOPIFY_STORE_DOMAIN;
+    const version = process.env.SHOPIFY_API_VERSION;
+  
+    if (!domain || !token) {
+      throw new Error("Missing SHOPIFY_STORE_DOMAIN or SHOPIFY_STOREFRONT_ACCESS_TOKEN");
+    }
+  
+    const res = await fetch(`https://${domain}/api/${version}/graphql.json`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Shopify-Storefront-Access-Token": token,
+      },
+      body: JSON.stringify({ query, variables }),
+      cache: "no-store",
+    });
+  
+    const json = await res.json();
+    if (json.errors) {
+      console.error(json.errors);
+      throw new Error("Shopify Storefront API error");
+    }
+    return json.data;
+  }
+  

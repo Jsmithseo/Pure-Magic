@@ -21,7 +21,6 @@ export default function WorkforceDevelopment() {
   return (
     <>
       <MainNavBar />
-
       {/* HERO SECTION */}
       <div
         style={{
@@ -41,7 +40,6 @@ export default function WorkforceDevelopment() {
           </p>
         </Container>
       </div>
-
       {/* MAIN CONTENT CARD */}
       <Container className="my-5">
         <Row className="gy-4 justify-content-center">
@@ -82,7 +80,6 @@ export default function WorkforceDevelopment() {
           </Col>
         </Row>
       </Container>
-
       {/* PARTNER/CLIENT LOGOS GRID SECTION */}
       <div style={{ background: "#f9f9f9", padding: "60px 0" }}>
         <Container>
@@ -114,7 +111,6 @@ export default function WorkforceDevelopment() {
           </Row>
         </Container>
       </div>
-
       {/* CALL TO ACTION / CTA */}
       <Container className="my-5">
         <Row className="align-items-center g-0" style={{ background: "#f7fafd", borderRadius: 16, overflow: "hidden" }}>
@@ -125,7 +121,9 @@ export default function WorkforceDevelopment() {
             <p className="mb-3" style={{ fontSize: 16 }}>
               Let Pathway Humanity guide you to new opportunities and help you build a brighter, more stable future. Explore our services and resources or connect with our career counselors today.
             </p>
-            <Link href="/contact" passHref legacyBehavior>
+            <Link href="/contact">
+              {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
+              }
               <Button color="success" className="fw-bold px-4 rounded-3">
                 CONTACT US
               </Button>
@@ -144,7 +142,6 @@ export default function WorkforceDevelopment() {
           </Col> */}
         </Row>
       </Container>
-
       <Footer />
     </>
   );

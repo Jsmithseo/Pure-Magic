@@ -10,7 +10,6 @@ export default function Mission() {
   return (
     <>
       <MainNavBar />
-
       {/* Hero Section */}
       <div
         style={{
@@ -30,7 +29,6 @@ export default function Mission() {
           </p>
         </Container>
       </div>
-
       {/* Main Mission Card */}
       <Container className="my-5">
         <Row className="gy-4 justify-content-center">
@@ -73,7 +71,6 @@ export default function Mission() {
           </Col>
         </Row>
       </Container>
-
       {/* (Optional) Mission Callout */}
       <Container className="my-5">
         <Row className="align-items-center g-0" style={{ background: "#f7fafd", borderRadius: 16, overflow: "hidden" }}>
@@ -84,7 +81,9 @@ export default function Mission() {
             <p className="mb-3" style={{ fontSize: 16 }}>
               Our holistic approach and evidence-based programs are designed to help every client find renewed hope and self-sufficiency. If you or a loved one need support, we are here for you.
             </p>
-            <Link href="/contact" passHref legacyBehavior>
+            <Link href="/contact">
+              {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
+              }
               <Button color="success" className="fw-bold px-4 rounded-3">
                 CONTACT US
               </Button>
@@ -92,7 +91,6 @@ export default function Mission() {
           </Col>
         </Row>
       </Container>
-
       <Footer />
     </>
   );

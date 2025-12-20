@@ -8,7 +8,6 @@ export default function Mentorship() {
   return (
     <>
       <MainNavBar />
-
       {/* HERO SECTION */}
       <div
         style={{
@@ -28,7 +27,6 @@ export default function Mentorship() {
           </p>
         </Container>
       </div>
-
       {/* MAIN CONTENT CARD */}
       <Container className="my-5">
         <Row className="gy-4 justify-content-center">
@@ -66,7 +64,6 @@ export default function Mentorship() {
           </Col>
         </Row>
       </Container>
-
       {/* MENTORSHIP FEATURES GRID */}
       <Container className="my-5">
         <Row className="g-4 justify-content-center">
@@ -116,7 +113,6 @@ export default function Mentorship() {
           </Col>
         </Row>
       </Container>
-
       {/* CALL TO ACTION */}
       <Container className="my-5">
         <Row>
@@ -128,7 +124,9 @@ export default function Mentorship() {
               <p style={{ fontSize: 17 }}>
                 Want to make a difference or need guidance on your journey? Connect with our mentorship team today—your story of transformation can start here.
               </p>
-              <Link href="/contact" passHref legacyBehavior>
+              <Link href="/contact">
+                {/* @next-codemod-error This Link previously used the now removed `legacyBehavior` prop, and has a child that might not be an anchor. The codemod bailed out of lifting the child props to the Link. Check that the child component does not render an anchor, and potentially move the props manually to Link. */
+                }
                 <Button color="success" className="fw-bold px-4 rounded-3">
                   CONTACT US
                 </Button>
@@ -137,7 +135,6 @@ export default function Mentorship() {
           </Col>
         </Row>
       </Container>
-
       <Footer />
     </>
   );

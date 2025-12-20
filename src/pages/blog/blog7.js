@@ -143,7 +143,7 @@ export default function TryoutsPost() {
 
             {/* Call-to-action */}
             <div className="text-center my-5">
-              <Link href="/contact" passHref>
+              <Link href="/contact">
                 <Button color="primary" size="lg">
                   Contact Us to Learn More
                 </Button>

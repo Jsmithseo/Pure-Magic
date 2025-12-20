@@ -1,9 +1,9 @@
 // pages/index.jsx (or the file that renders this page)
-"use client";
 import React, { useState, useRef } from "react";
 import MainNavBar from "../components/MainNavBar";
 import Footer from "../components/Footer";
-import ReCAPTCHA from "react-google-recaptcha";
+import Product from "../components/product"
+
 import {
   Container,
   Row,
@@ -147,12 +147,11 @@ export default function Home() {
       {/* HERO SECTION */}
       <section className="hero">
         <div className="hero-content">
-          <h1>Pathway Humanity: Nurturing Well-being and Empowering Futures</h1>
+          <h1>Pure Magic</h1>
           <p>
-            At Pathway Humanity, we are dedicated to cultivating individual and community well-being. We
-            empower individuals and foster environments where growth, stability, and positive contribution flourish.
+          Body Butter—whipped, rich hydration that keeps skin soft, smooth, and glowing. Clean feel, non-greasy finish, light scent. Made for everyday moisture you can feel.
           </p>
-          <a className="btn" href="/mission">Learn More</a>
+          <a className="btn" href="/mission">Shop</a>
         </div>
       </section>
 
@@ -162,177 +161,31 @@ export default function Home() {
           <Row className="justify-content-center">
             <Col md={12} lg={12}>
               <h1 className="fw-bold mb-3" style={{ fontSize: "2.3rem", letterSpacing: 1, Color: "white" }}>
-                Welcome to Pathway Humanity
+                Welcome to Pure Magic
               </h1>
-              <p style={{ fontSize: "1.2rem", lineHeight: 1.7, Color: "white" }}>
+              {/* <p style={{ fontSize: "1.2rem", lineHeight: 1.7, Color: "white" }}>
                 Pathway Humanity is a unique and transformative organization committed to uplifting individuals from despair to empowered self-sufficiency. We provide comprehensive support for underserved populations, including those battling addiction, experiencing homelessness, struggling with poverty, underrepresented groups, and disabled veterans and civilians.
-                <br /><br />
-                Our mission is rooted in the belief that everyone deserves a brighter future. We are a holistic "one-stop shop," providing continuous, tailored support throughout the entire rehabilitation and empowerment process. From the moment you connect with us, you embark on a journey of growth and transformation in a safe and nurturing environment. We help clients address root causes, develop essential life skills, and gain confidence for successful societal reintegration.
-              </p>
+                <br /><br />              
+                </p> */}
             </Col>
+            <Product/>
           </Row>
         </Container>
       </section>
 
-      {/* SERVICE BLOCKS */}
-      <Container className="py-5">
-        <h2 className="fw-bold text-center mb-5" style={{ color: "#fff" }}>Comprehensive Services</h2>
-        <Row className="g-4">
-          <Col md={6}>
-            <ToggleCard title="Mental Health & Addiction Recovery" color="#14c9d6">
-              <ul>
-                <li><b>Comprehensive mental illness and substance use disorder treatment</b> from highly qualified psychiatrists and licensed/certified counselors.</li>
-                <li><b>Evidence-based treatment</b> for underlying socio-economic challenges.</li>
-              </ul>
-              <p>
-                <b>Comprehensive Mental Illness and Substance Use Disorder Treatment:</b> We provide an integrated and holistic approach...
-              </p>
-              <p>
-                <b>Evidence-Based Treatment for Underlying Socio-Economic Challenges:</b> Recognizing that mental health and substance use often intersect with socio-economic factors...
-              </p>
-            </ToggleCard>
-          </Col>
-
-          <Col md={6}>
-            <ToggleCard title="Vital Transitional Housing Support" color="#65b32e">
-              <ul>
-                <li><b>Safe, stable, and supportive environments</b> for individuals and families working towards self-sufficiency.</li>
-              </ul>
-              <p>Pathway Humanity provides transitional housing, offering safe, stable, and profoundly supportive environments...</p>
-            </ToggleCard>
-          </Col>
-
-          <Col md={6}>
-            <ToggleCard title="Empowering Job Seekers" color="#1c7acb">
-              <ul>
-                <li>Skill Development & Enhancement</li>
-                <li>Strategic Resume Building</li>
-                <li>Effective Interview Preparation</li>
-                <li>Targeted Job Search Strategies</li>
-                <li>Temporary-to-Permanent Job Placement</li>
-              </ul>
-              <p>At Pathway Humanity, we are dedicated to fostering significant career growth for our clients...</p>
-            </ToggleCard>
-          </Col>
-
-          <Col md={6}>
-            <ToggleCard title="Strategic Human Resources Consulting" color="#8b3dd9">
-              <ul>
-                <li>Talent Acquisition & Retention</li>
-                <li>Employee Relations Management</li>
-                <li>Policy Development & Implementation</li>
-                <li>Organizational Growth & Development</li>
-                <li>Salary Surveys & Benchmarking</li>
-                <li>Financial literacy education</li>
-                <li>Access to vital community resources</li>
-              </ul>
-            </ToggleCard>
-          </Col>
-        </Row>
-      </Container>
-
-      {/* RESEARCH STATS */}
-      <section className="research-section">
-        <h2 className="research-title" style={{ color: "#fff" }}>What the Research Says</h2>
-        <p className="research-desc">
-          Measurement-Based Care (MBC) revolutionizes mental healthcare by integrating patient data and objective measures...
-        </p>
-        <div className="research-cards">
-          <div className="research-card stat-green">
-            <div className="stat-top" style={{ background: "#14c9d6" }}>
-              <span className="stat-number" style={{ color: "#fff" }}>
-                <span style={{ fontSize: "2.1rem", marginRight: 4 }}>&#8593;</span>
-                <AnimatedNumber to={42} suffix="%" />
-              </span>
-            </div>
-            <div className="stat-bottom stat-green-bottom">
-              <div><span className="stat-label">HIGHER OVERALL IMPROVEMENT IN CLINICAL SYMPTOMS</span><br/></div>
-            </div>
-          </div>
-
-          <div className="research-card stat-blue">
-            <div className="stat-top" style={{ background: "#14c9d6" }}>
-              <span className="stat-number" style={{ color: "#fff" }}>
-                <span style={{ fontSize: "2.1rem", marginRight: 4 }}>&#8593;</span>
-                <AnimatedNumber to={3.5} decimals={1} suffix="x" />
-              </span>
-            </div>
-            <div className="stat-bottom stat-blue-bottom">
-              <div><span className="stat-label">HIGHER LIKELIHOOD THAT A CLIENT EXPERIENCES RELIABLE CHANGE</span></div>
-            </div>
-          </div>
-
-          <div className="research-card stat-green2">
-            <div className="stat-top" style={{ background: "#14c9d6" }}>
-              <span className="stat-number" style={{ color: "#fff" }}>
-                <span style={{ fontSize: "2.1rem", marginRight: 4 }}>&#8593;</span>
-                <AnimatedNumber to={40} suffix="%" />
-              </span>
-            </div>
-            <div className="stat-bottom stat-green2-bottom">
-              <div><span className="stat-label">IMPROVED PATIENT ATTENDANCE AND ENGAGEMENT</span><br/></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* NEWSLETTER SIGNUP */}
-      <Container className="py-5">
-        <Row className="justify-content-center mb-4">
-          <Col md={8} className="text-center" style={{ color: "#fff" }}>
-            <h2 className="fw-bold">Join Our Newsletter</h2>
-            <p>Get the latest updates, tips, and resources delivered straight to your inbox.</p>
-          </Col>
-        </Row>
-        <Row className="justify-content-center">
-          <Col md={8} lg={6}>
-            {nlStatus.success && <Alert color="success">Thank you for subscribing!</Alert>}
-            {nlStatus.error && <Alert color="danger">{nlStatus.error}</Alert>}
-            <Form onSubmit={handleNlSubmit}>
-              <Row>
-                <Col md={6}>
-                  <FormGroup>
-                    <Label for="firstName" style={{ color: "#fff" }}>First Name</Label>
-                    <Input id="firstName" name="firstName" value={newsletter.firstName} onChange={handleNlChange} required placeholder="First Name" />
-                  </FormGroup>
-                </Col>
-                <Col md={6}>
-                  <FormGroup>
-                    <Label for="lastName" style={{ color: "#fff" }}>Last Name</Label>
-                    <Input id="lastName" name="lastName" value={newsletter.lastName} onChange={handleNlChange} required placeholder="Last Name" />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <FormGroup>
-                <Label for="email" style={{ color: "#fff" }}>Email Address</Label>
-                <Input type="email" id="email" name="email" value={newsletter.email} onChange={handleNlChange} required placeholder="you@example.com" />
-              </FormGroup>
-
-              <div className="d-flex justify-content-center my-3">
-                <ReCAPTCHA
-                  ref={recaptchaRef}
-                  sitekey={RECAPTCHA_SITE_KEY}
-                  onChange={(token) => setRecaptchaToken(token)}
-                />
-              </div>
-
-              <div className="text-center">
-                <Button color="primary" disabled={nlStatus.submitting}>
-                  {nlStatus.submitting ? <Spinner size="sm" /> : "Subscribe"}
-                </Button>
-              </div>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
-
       <Footer />
 
       <style jsx global>{`
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #fff; line-height: 1.6; }
-        a { text-decoration: none; color: inherit; }
 
+.hero-content .btn {
+  background: #000!important;
+}
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+        btn-black {
+          color: black;
+        }
         .hero {
           max-height: 700px; width: 100%; aspect-ratio: 1 / 2;
           display: flex; align-items: center; justify-content: flex-end;

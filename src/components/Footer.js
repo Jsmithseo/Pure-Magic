@@ -6,7 +6,7 @@ const Footer = () => (
     <Container>
       <Row className="mb-4">
         <Col md={3} className="mb-4 mb-md-0">
-          <p>At Pathway Humanity, we team up with people, communities, and groups to help them reach their full potential, no matter where they're starting from. We're all about making change for the better.</p>
+          <p>At Pure Magic Body Butter, we craft hand-made, chemical-free body butter that helps your skin feel soft, smooth, and confident—no matter where you’re starting from. We’re all about simple, all-natural ingredients, quality you can feel, and daily self-care that makes a real difference.</p>
         </Col>
         <Col md={3} className="mb-4 mb-md-0">
           <h6 className="fw-bold mb-3" style={{ color: "#000" }}>Company</h6>
@@ -27,7 +27,7 @@ const Footer = () => (
       <hr style={{ borderColor: "#000" }} />
       <Row className="align-items-center text-center text-md-start">
         <Col md={6} className="small">
-          © 2025 Pathway Humanity SPC. All rights reserved.
+          © 2026 Pure Magic. All rights reserved.
         </Col>
         <Col md={6} className="d-flex justify-content-center justify-content-md-end gap-3 small">
           <a href="/accessibility" className="footer-link">Accessibility</a>
