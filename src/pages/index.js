@@ -212,9 +212,9 @@ export default function Home({ products = [], productsError = "" }) {
             Body Butter—whipped, rich hydration that keeps skin soft, smooth, and glowing. Clean feel, non-greasy finish,
             light scent. Made for everyday moisture you can feel.
           </p>
-          <a className="btn" href="/mission">
+          {/* <a className="btn" href="/mission">
             Shop
-          </a>
+          </a> */}
         </div>
       </section>
 
