@@ -1,8 +1,11 @@
 export async function shopifyFetch(query, variables = {}) {
-    const token = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN;
-    const domain = process.env.SHOPIFY_STORE_DOMAIN;
-    const version = process.env.SHOPIFY_API_VERSION;
+    const token = 'af850e887c30c4a601ac442b4de857f2';
+    const domain = 'magic2u1.myshopify.com';
+    const version = '2025-10'
   
+
+
+
     if (!domain || !token) {
       throw new Error("Missing SHOPIFY_STORE_DOMAIN or SHOPIFY_STOREFRONT_ACCESS_TOKEN");
     }

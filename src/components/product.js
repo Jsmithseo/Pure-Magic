@@ -1,3 +1,5 @@
+
+
 import { shopifyFetch } from "../../libs/shopify";
 
 const PRODUCTS_QUERY = `
