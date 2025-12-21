@@ -39,17 +39,17 @@ const MainNavBar = () => {
       <Collapse isOpen={isOpen} navbar>
         <Nav className="ms-auto align-items-center" navbar>
           <NavItem>
-            <Link href="/mission" className="nav-link" style={navLinkStyle}>
+            <Link href="/" className="nav-link" style={navLinkStyle}>
            Home
             </Link>
           </NavItem>
           <NavItem>
-            <Link href="/clinicians" className="nav-link" style={navLinkStyle}>
+            <Link href="/" className="nav-link" style={navLinkStyle}>
             Body Butter Cologne
             </Link>
           </NavItem>
           <NavItem>
-            <Link href="/about" className="nav-link" style={navLinkStyle}>
+            <Link href="/" className="nav-link" style={navLinkStyle}>
             Body Oil Cologne
             </Link>
           </NavItem>
