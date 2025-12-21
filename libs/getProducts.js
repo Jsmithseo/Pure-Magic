@@ -1,6 +1,6 @@
 import { shopifyFetch } from "./shopify";
 
-export const PRODUCTS_QUERY = `
+const PRODUCTS_QUERY = `
   query Products($first: Int!) {
     products(first: $first) {
       edges {
@@ -9,8 +9,18 @@ export const PRODUCTS_QUERY = `
           title
           handle
           description
+          availableForSale
           featuredImage { url altText }
           priceRange { minVariantPrice { amount currencyCode } }
+          variants(first: 1) {
+            edges {
+              node {
+                id
+                availableForSale
+                price { amount currencyCode }
+              }
+            }
+          }
         }
       }
     }
