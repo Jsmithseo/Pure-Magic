@@ -30,8 +30,19 @@ const PRODUCTS_QUERY = `
           title
           handle
           description
+          availableForSale
           featuredImage { url altText }
           priceRange { minVariantPrice { amount currencyCode } }
+
+          variants(first: 1) {
+            edges {
+              node {
+                id
+                availableForSale
+                price { amount currencyCode }
+              }
+            }
+          }
         }
       }
     }
