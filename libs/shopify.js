@@ -4,8 +4,6 @@ export async function shopifyFetch(query, variables = {}) {
     const version = '2025-10'
   
 
-
-
     if (!domain || !token) {
       throw new Error("Missing SHOPIFY_STORE_DOMAIN or SHOPIFY_STOREFRONT_ACCESS_TOKEN");
     }

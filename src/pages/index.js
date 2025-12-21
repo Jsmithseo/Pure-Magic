@@ -1,8 +1,10 @@
-// pages/index.jsx (or the file that renders this page)
+// pages/index.jsx
 import React, { useState, useRef } from "react";
 import MainNavBar from "../components/MainNavBar";
 import Footer from "../components/Footer";
-import Product from "../components/product"
+import ProductsSection from "../components/ProductSection";
+
+import { shopifyFetch } from "../../libs/shopify"; // ✅ adjust if your path differs
 
 import {
   Container,
@@ -18,6 +20,39 @@ import {
   Alert,
   Spinner,
 } from "reactstrap";
+
+const PRODUCTS_QUERY = `
+  query Products($first: Int!) {
+    products(first: $first) {
+      edges {
+        node {
+          id
+          title
+          handle
+          description
+          featuredImage { url altText }
+          priceRange { minVariantPrice { amount currencyCode } }
+        }
+      }
+    }
+  }
+`;
+
+// ✅ Server-side fetch so products is defined (Pages Router way)
+export async function getServerSideProps() {
+  try {
+    const data = await shopifyFetch(PRODUCTS_QUERY, { first: 11 });
+    const products = data?.products?.edges?.map((e) => e.node) || [];
+    return { props: { products } };
+  } catch (e) {
+    return {
+      props: {
+        products: [],
+        productsError: e?.message || "Failed to load products",
+      },
+    };
+  }
+}
 
 // Animated number component
 function AnimatedNumber({ to, duration = 1500, decimals = 0, prefix = "", suffix = "" }) {
@@ -37,7 +72,14 @@ function AnimatedNumber({ to, duration = 1500, decimals = 0, prefix = "", suffix
     }
     requestAnimationFrame(step);
   }, [to, duration]);
-  return <span>{prefix}{decimals > 0 ? count.toFixed(decimals) : Math.round(count)}{suffix}</span>;
+
+  return (
+    <span>
+      {prefix}
+      {decimals > 0 ? count.toFixed(decimals) : Math.round(count)}
+      {suffix}
+    </span>
+  );
 }
 
 // ToggleCard component
@@ -46,7 +88,9 @@ function ToggleCard({ title, color, children }) {
   return (
     <Card className="border-0 shadow h-100" style={{ backgroundColor: color, color: "#fff" }}>
       <CardBody>
-        <h4 className="fw-bold mb-3" style={{ color: "#fff" }}>{title}</h4>
+        <h4 className="fw-bold mb-3" style={{ color: "#fff" }}>
+          {title}
+        </h4>
         <div className={`toggle-content ${isOpen ? "open" : "collapsed"}`}>{children}</div>
         <Button
           color="link"
@@ -58,14 +102,21 @@ function ToggleCard({ title, color, children }) {
         </Button>
       </CardBody>
       <style jsx>{`
-        .toggle-content.collapsed { max-height: 140px; overflow: hidden; transition: max-height 0.3s ease; }
-        .toggle-content.open { max-height: 2000px; transition: max-height 0.4s ease; }
+        .toggle-content.collapsed {
+          max-height: 140px;
+          overflow: hidden;
+          transition: max-height 0.3s ease;
+        }
+        .toggle-content.open {
+          max-height: 2000px;
+          transition: max-height 0.4s ease;
+        }
       `}</style>
     </Card>
   );
 }
 
-export default function Home() {
+export default function Home({ products = [], productsError = "" }) {
   // HubSpot / reCAPTCHA constants
   const HUBSPOT_PORTAL_ID = "243400623";
   const HUBSPOT_FORM_ID = "1712ae97-5882-46c9-a06e-8a3daed3511b";
@@ -110,7 +161,6 @@ export default function Home() {
         pageName: typeof document !== "undefined" ? document.title : "Contact",
         ...(hutk ? { hutk } : {}),
       },
-      // Add legalConsentOptions if you use GDPR consent fields on the form
     };
 
     try {
@@ -121,13 +171,12 @@ export default function Home() {
       });
 
       const body = await res.json();
-      // console.log("HubSpot response:", body);
 
       if (res.ok) {
         setNlStatus({ submitting: false, success: true, error: "" });
         setNewsletter({ firstName: "", lastName: "", email: "" });
         setRecaptchaToken(null);
-        recaptchaRef.current?.reset(); // reset widget for future submissions
+        recaptchaRef.current?.reset();
       } else {
         setNlStatus({
           submitting: false,
@@ -149,9 +198,12 @@ export default function Home() {
         <div className="hero-content">
           <h1>Pure Magic</h1>
           <p>
-          Body Butter—whipped, rich hydration that keeps skin soft, smooth, and glowing. Clean feel, non-greasy finish, light scent. Made for everyday moisture you can feel.
+            Body Butter—whipped, rich hydration that keeps skin soft, smooth, and glowing. Clean feel, non-greasy finish,
+            light scent. Made for everyday moisture you can feel.
           </p>
-          <a className="btn" href="/mission">Shop</a>
+          <a className="btn" href="/mission">
+            Shop
+          </a>
         </div>
       </section>
 
@@ -160,15 +212,17 @@ export default function Home() {
         <Container>
           <Row className="justify-content-center">
             <Col md={12} lg={12}>
-              <h1 className="fw-bold mb-3" style={{ fontSize: "2.3rem", letterSpacing: 1, Color: "white" }}>
+              <h1
+                className="fw-bold mb-3"
+                style={{ fontSize: "2.3rem", letterSpacing: 1, color: "white" }}
+              >
                 Welcome to Pure Magic
               </h1>
-              {/* <p style={{ fontSize: "1.2rem", lineHeight: 1.7, Color: "white" }}>
-                Pathway Humanity is a unique and transformative organization committed to uplifting individuals from despair to empowered self-sufficiency. We provide comprehensive support for underserved populations, including those battling addiction, experiencing homelessness, struggling with poverty, underrepresented groups, and disabled veterans and civilians.
-                <br /><br />              
-                </p> */}
+
+              {productsError ? <p style={{ color: "crimson" }}>{productsError}</p> : null}
+
+              <ProductsSection products={products} />
             </Col>
-            <Product/>
           </Row>
         </Container>
       </section>
@@ -176,45 +230,160 @@ export default function Home() {
       <Footer />
 
       <style jsx global>{`
+        .hero-content .btn {
+          background: #000 !important;
+        }
 
-.hero-content .btn {
-  background: #000!important;
-}
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif line-height: 1.6; }
-        a { text-decoration: none; color: inherit; }
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+
+        body {
+          font-family: "Helvetica Neue", Arial, sans-serif;
+          line-height: 1.6;
+        }
+
+        a {
+          text-decoration: none;
+          color: inherit;
+        }
+
         btn-black {
           color: black;
         }
+
         .hero {
-          max-height: 700px; width: 100%; aspect-ratio: 1 / 2;
-          display: flex; align-items: center; justify-content: flex-end;
-          background-image: url('/images/hero_image_home.jpg');
-          background-position: center; background-repeat: no-repeat; background-size: cover;
-          background-color: #e9f6fa; overflow: hidden;
+          max-height: 700px;
+          width: 100%;
+          aspect-ratio: 1 / 2;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          background-image: url("/images/hero_image_home.jpg");
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-color: #e9f6fa;
+          overflow: hidden;
         }
+
         .hero-content {
-          background: rgba(255,255,255,0.85);
-          padding: 8px 32px; border-radius: 10px; max-width: 470px; margin-left: 6vw;
-          box-shadow: 0 6px 32px rgba(0,0,0,0.08); text-align: left;
+          background: rgba(255, 255, 255, 0.85);
+          padding: 8px 32px;
+          border-radius: 10px;
+          max-width: 470px;
+          margin-left: 6vw;
+          box-shadow: 0 6px 32px rgba(0, 0, 0, 0.08);
+          text-align: left;
         }
-        .hero-content h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 20px; color: #203354; }
-        .hero-content p { font-size: 1.25rem; margin-bottom: 32px; color: #222; }
-        .hero-content .btn { background: #1d7acb; color: #fff; padding: 12px 24px; border-radius: 4px; font-weight: bold; transition: background 0.2s; border: none; }
-        .hero-content .btn:hover { background: #005b7a; }
 
-        .py-5 { padding-top: 0rem !important; }
-        section { padding: 60px 40px; }
+        .hero-content h1 {
+          font-size: 2.5rem;
+          font-weight: 700;
+          margin-bottom: 20px;
+          color: #203354;
+        }
 
-        .research-section { max-width: 1240px; margin: 0 auto; padding: 60px 20px 80px; text-align: center; }
-        .research-title { font-size: 2.4rem; font-weight: 600; margin-bottom: 20px; }
-        .research-desc { font-size: 1.15rem; color: #fff; max-width: 760px; margin: 0 auto 60px; line-height: 1.7; }
-        .research-cards { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; }
-        .research-card { border-radius: 8px; flex: 1 1 320px; max-width: 350px; min-height: 300px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 1px 10px rgba(0,0,0,0.07); }
-        .stat-top { height: 120px; display: flex; align-items: center; justify-content: flex-start; font-size: 2.7rem; font-weight: 600; padding-left: 32px; }
-        .stat-bottom { display: flex; align-items: flex-end; }
-        .stat-green-bottom, .stat-blue-bottom, .stat-green2-bottom { background: #14c9d6; color: #fff; }
-        .stat-label { display: block; font-size: 1.04rem; font-weight: 600; text-align: left; padding: 20px 0 20px 20px; max-width: 180px; }
+        .hero-content p {
+          font-size: 1.25rem;
+          margin-bottom: 32px;
+          color: #222;
+        }
+
+        .hero-content .btn {
+          background: #1d7acb;
+          color: #fff;
+          padding: 12px 24px;
+          border-radius: 4px;
+          font-weight: bold;
+          transition: background 0.2s;
+          border: none;
+          display: inline-block;
+        }
+
+        .hero-content .btn:hover {
+          background: #005b7a;
+        }
+
+        .py-5 {
+          padding-top: 0rem !important;
+        }
+
+        section {
+          padding: 60px 40px;
+        }
+
+        .research-section {
+          max-width: 1240px;
+          margin: 0 auto;
+          padding: 60px 20px 80px;
+          text-align: center;
+        }
+
+        .research-title {
+          font-size: 2.4rem;
+          font-weight: 600;
+          margin-bottom: 20px;
+        }
+
+        .research-desc {
+          font-size: 1.15rem;
+          color: #fff;
+          max-width: 760px;
+          margin: 0 auto 60px;
+          line-height: 1.7;
+        }
+
+        .research-cards {
+          display: flex;
+          gap: 30px;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .research-card {
+          border-radius: 8px;
+          flex: 1 1 320px;
+          max-width: 350px;
+          min-height: 300px;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+          box-shadow: 0 1px 10px rgba(0, 0, 0, 0.07);
+        }
+
+        .stat-top {
+          height: 120px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          font-size: 2.7rem;
+          font-weight: 600;
+          padding-left: 32px;
+        }
+
+        .stat-bottom {
+          display: flex;
+          align-items: flex-end;
+        }
+
+        .stat-green-bottom,
+        .stat-blue-bottom,
+        .stat-green2-bottom {
+          background: #14c9d6;
+          color: #fff;
+        }
+
+        .stat-label {
+          display: block;
+          font-size: 1.04rem;
+          font-weight: 600;
+          text-align: left;
+          padding: 20px 0 20px 20px;
+          max-width: 180px;
+        }
       `}</style>
     </>
   );
