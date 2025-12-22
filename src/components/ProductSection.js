@@ -49,7 +49,7 @@ export default function ProductsSection({ products = [] }) {
   return (
     <section style={{ padding: 24 }}>
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
-        <h2 style={{ margin: 0 }}>Products</h2>
+        <h2 style={{ margin: 0 }}>Featured Products</h2>
 
         {/* Optional: show count */}
         <p style={{ margin: 0, opacity: 0.7, fontSize: 14 }}>
