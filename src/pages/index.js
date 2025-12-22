@@ -4,6 +4,7 @@ import MainNavBar from "../components/MainNavBar";
 import Footer from "../components/Footer";
 import ProductsSection from "../components/ProductSection";
 import KokumButter from "../components/KokumButter"
+import PureMagicAttractionSection from "../components/AttractionSection"
 
 import { shopifyFetch } from "../../libs/shopify"; // ✅ adjust if your path differs
 
@@ -235,6 +236,13 @@ export default function Home({ products = [], productsError = "" }) {
 
               <ProductsSection products={products} />
               <KokumButter/>
+              <PureMagicAttractionSection
+                imageSrc="/attraction.png"
+                titleHighlight="Attraction"
+                titleTrail="Factor"
+                ctaHref="/products"
+              />
+
             </Col>
           </Row>
         </Container>
