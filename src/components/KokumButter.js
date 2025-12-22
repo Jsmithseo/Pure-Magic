@@ -13,12 +13,12 @@ export default function PureMagicKokumButterSection() {
           </div>
 
           <p className="pm-kicker">PURE MAGIC INGREDIENT SPOTLIGHT</p>
-          <h2 className="pm-title">Kokum Butter</h2>
+          <h2 className="pm-title">Mango Butter</h2>
           <p className="pm-subtitle">What is it?</p>
 
           <p className="pm-body">
-            Kokum butter is a plant-based butter pressed from the seeds of the
-            kokum fruit. It’s known for a smooth, non-greasy feel—making it a
+            Mango butter is a plant-based butter pressed from the seeds of the
+            mango fruit. It’s known for a smooth, non-greasy feel—making it a
             go-to for rich moisture that still wears clean on the skin.
           </p>
         </div>
@@ -36,7 +36,7 @@ export default function PureMagicKokumButterSection() {
 
           {/* ✅ Your provided content */}
           <p className="pm-body pm-body--center">
-            Kokum butter provides 48-hour deep hydration that penetrates skin
+            Mango butter provides 48-hour deep hydration that penetrates skin
             without leaving any greasy residue. This rare Indian butter creates
             an invisible barrier that locks in moisture while allowing your skin
             to breathe naturally.
