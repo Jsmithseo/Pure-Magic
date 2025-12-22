@@ -8,7 +8,7 @@ const Footer = () => (
         <Col md={3} className="mb-4 mb-md-0">
           <p>At Pure Magic Body Butter, we craft hand-made, chemical-free body butter that helps your skin feel soft, smooth, and confident—no matter where you’re starting from. We’re all about simple, all-natural ingredients, quality you can feel, and daily self-care that makes a real difference.</p>
         </Col>
-        <Col md={3} className="mb-4 mb-md-0">
+        {/* <Col md={3} className="mb-4 mb-md-0">
           <h6 className="fw-bold mb-3" style={{ color: "#000" }}>Company</h6>
           <ul className="list-unstyled small">
             <li><a href="/mission" className="footer-link">Mission</a></li>
@@ -17,7 +17,7 @@ const Footer = () => (
             <li><a href="/applicants" className="footer-link">Applicants</a></li>
             <li><a href="/employers" className="footer-link">Employers</a></li>
           </ul>
-        </Col>
+        </Col> */}
         <Col md={3} className="d-flex flex-column align-items-center">
           <div className="text-center small mb-2">
             Privacy and security are the foundation of everything we do.

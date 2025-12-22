@@ -43,16 +43,16 @@ const MainNavBar = () => {
            Home
             </Link>
           </NavItem>
-          <NavItem>
+          {/* <NavItem>
             <Link href="/" className="nav-link" style={navLinkStyle}>
             Body Butter Cologne
             </Link>
-          </NavItem>
-          <NavItem>
+          </NavItem> */}
+          {/* <NavItem>
             <Link href="/" className="nav-link" style={navLinkStyle}>
             Body Oil Cologne
             </Link>
-          </NavItem>
+          </NavItem> */}
 
 
           <NavItem>

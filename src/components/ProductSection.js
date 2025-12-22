@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 export default function ProductsSection({ products = [] }) {
   const [loadingById, setLoadingById] = useState({});
+  const [showAll, setShowAll] = useState(false);
 
   const handleBuyNow = async (p) => {
     const productId = p?.id;
-
     const variantId = p?.variants?.edges?.[0]?.node?.id;
 
     const available =
@@ -13,15 +13,8 @@ export default function ProductsSection({ products = [] }) {
         ? p.availableForSale
         : !!p?.variants?.edges?.[0]?.node?.availableForSale;
 
-    if (!available) {
-      alert("This product is currently sold out.");
-      return;
-    }
-
-    if (!variantId) {
-      alert("This product has no purchasable variant.");
-      return;
-    }
+    if (!available) return alert("This product is currently sold out.");
+    if (!variantId) return alert("This product has no purchasable variant.");
 
     try {
       setLoadingById((prev) => ({ ...prev, [productId]: true }));
@@ -34,15 +27,8 @@ export default function ProductsSection({ products = [] }) {
 
       const json = await res.json();
 
-      if (!res.ok) {
-        alert(json?.error || "Checkout failed");
-        return;
-      }
-
-      if (!json?.checkoutUrl) {
-        alert("Checkout URL missing from response.");
-        return;
-      }
+      if (!res.ok) return alert(json?.error || "Checkout failed");
+      if (!json?.checkoutUrl) return alert("Checkout URL missing from response.");
 
       window.location.href = json.checkoutUrl;
     } catch (err) {
@@ -52,18 +38,34 @@ export default function ProductsSection({ products = [] }) {
     }
   };
 
+  // Reverse order without mutating props
+  const productsReversed = useMemo(() => [...products].reverse(), [products]);
+
+  // Only show first 5 until user clicks "Load all"
+  const visibleProducts = showAll ? productsReversed : productsReversed.slice(0, 5);
+
+  const hasMore = productsReversed.length > 5 && !showAll;
+
   return (
     <section style={{ padding: 24 }}>
-      <h2>Products</h2>
+      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
+        <h2 style={{ margin: 0 }}>Products</h2>
+
+        {/* Optional: show count */}
+        <p style={{ margin: 0, opacity: 0.7, fontSize: 14 }}>
+          Showing {visibleProducts.length} of {productsReversed.length}
+        </p>
+      </div>
 
       <div
         style={{
+          marginTop: 16,
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
           gap: 16,
         }}
       >
-        {products.map((p) => {
+        {visibleProducts.map((p) => {
           const productId = p.id;
 
           const available =
@@ -91,14 +93,13 @@ export default function ProductsSection({ products = [] }) {
                 />
               )}
 
-              <h3 style={{ marginTop: 10 }}>{p.title}</h3>
+              <h6 style={{ marginTop: 10 }}>{p.title}</h6>
 
               <p style={{ opacity: 0.8 }}>
                 {p.priceRange?.minVariantPrice?.amount}{" "}
                 {p.priceRange?.minVariantPrice?.currencyCode}
               </p>
 
-              {/* Buy Now button */}
               <button
                 onClick={() => handleBuyNow(p)}
                 disabled={!available || isLoading}
@@ -121,6 +122,25 @@ export default function ProductsSection({ products = [] }) {
           );
         })}
       </div>
+
+      {/* Load all */}
+      {hasMore && (
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 18 }}>
+          <button
+            onClick={() => setShowAll(true)}
+            style={{
+              padding: "12px 16px",
+              borderRadius: 12,
+              border: "1px solid #ddd",
+              background: "#fff",
+              fontWeight: 800,
+              cursor: "pointer",
+            }}
+          >
+            Load all products
+          </button>
+        </div>
+      )}
     </section>
   );
 }

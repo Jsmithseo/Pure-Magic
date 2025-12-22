@@ -3,6 +3,7 @@ import React, { useState, useRef } from "react";
 import MainNavBar from "../components/MainNavBar";
 import Footer from "../components/Footer";
 import ProductsSection from "../components/ProductSection";
+import KokumButter from "../components/KokumButter"
 
 import { shopifyFetch } from "../../libs/shopify"; // ✅ adjust if your path differs
 
@@ -233,6 +234,7 @@ export default function Home({ products = [], productsError = "" }) {
               {productsError ? <p style={{ color: "crimson" }}>{productsError}</p> : null}
 
               <ProductsSection products={products} />
+              <KokumButter/>
             </Col>
           </Row>
         </Container>
