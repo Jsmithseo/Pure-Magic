@@ -8,7 +8,6 @@ const PRODUCTS_QUERY = `
           id
           title
           handle
-          description
           availableForSale
           featuredImage { url altText }
           priceRange { minVariantPrice { amount currencyCode } }
@@ -17,7 +16,6 @@ const PRODUCTS_QUERY = `
               node {
                 id
                 availableForSale
-                price { amount currencyCode }
               }
             }
           }
