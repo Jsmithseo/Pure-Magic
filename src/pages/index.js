@@ -54,7 +54,7 @@ const PRODUCTS_QUERY = `
 // ✅ Server-side fetch so products is defined (Pages Router way)
 export async function getServerSideProps() {
   try {
-    const data = await shopifyFetch(PRODUCTS_QUERY, { first: 11 });
+    const data = await shopifyFetch(PRODUCTS_QUERY, { first: 50 });
     const products = data?.products?.edges?.map((e) => e.node) || [];
     return { props: { products } };
   } catch (e) {
