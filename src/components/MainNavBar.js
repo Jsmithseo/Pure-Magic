@@ -19,12 +19,13 @@ const MainNavBar = () => {
   const toggle = () => setIsOpen(!isOpen);
 
   const navLinkStyle = {
-    fontSize: '1.1rem', // Increased font size
+    fontSize: '1.4rem', // Increased font size
     fontWeight: '500',  // Slightly bolder for better readability
+    color:'white'
   };
 
   return (
-    <Navbar expand="md" light color="white" className="px-3 shadow-sm sticky-top">
+    <Navbar expand="md" light color="black" className="px-3 shadow-sm sticky-top">
       <NavbarBrand href="/" className="d-flex align-items-center gap-2">
       <img
           src="../images/pure-magic-logo.jpg"
