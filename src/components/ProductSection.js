@@ -77,7 +77,7 @@ export default function ProductsSection({ products = [] }) {
           const isLoading = !!loadingById[p.id];
 
           return (
-            <div key={p.id} style={{ border: "1px solid #eee", borderRadius: 12, padding: 12 }}>
+            <div className="product" key={p.id} style={{ border: "1px solid #eee", borderRadius: 12, padding: 12 }}>
               {p.featuredImage?.url && (
                 <img
                   src={p.featuredImage.url}
