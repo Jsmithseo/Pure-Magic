@@ -226,7 +226,7 @@ export default function Home({ products = [], productsError = "" }) {
           <Row className="justify-content-center">
             <Col md={12} lg={12}>
               <h1
-                className="fw-bold mb-3"
+                className="fw-bold mb-3 welcome-homepahe"
                 style={{ fontSize: "2.3rem", letterSpacing: 1, color: "white" }}
               >
                 Welcome to Pure Magic

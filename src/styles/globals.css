@@ -97,8 +97,11 @@ p.jsx-bb0c2fc25bd9737b {
     height:50px!important;
   
     }
+
+    h1.jsx-fef5bf5ce0b12372.fw-bold.mb-3.welcome-homepahe {
+      font-size: 1.7rem!important;
   }
-  
+}
 
 @media (min-width: 1024px) {
   .logo {
