@@ -27,7 +27,7 @@ const MainNavBar = () => {
   return (
     <Navbar expand="md" light color="black" className="px-3 shadow-sm sticky-top">
       <NavbarBrand href="/" className="d-flex align-items-center gap-2">
-      <img
+      <img className="logo"
           src="../images/pure-magic-logo.jpg"
           alt="Logo Placeholder"
           style={{ width: 225, height: 125, borderRadius: 8 }}

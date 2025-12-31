@@ -87,3 +87,25 @@ p.jsx-bb0c2fc25bd9737b {
 .product {
   border: none !important;
 }
+
+
+
+@media (max-width: 767.98px) {
+  .logo {
+
+    width: 150px!important;
+    height: 70px!important;
+  
+    }
+  }
+  
+
+@media (min-width: 1024px) {
+  .logo {
+
+  width: 192px!important;
+  height: 85px!important;
+
+  }
+}
+
