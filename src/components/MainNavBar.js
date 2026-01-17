@@ -55,12 +55,18 @@ const MainNavBar = () => {
             </Link>
           </NavItem> */}
 
+<NavItem>
+            <Link href="/smp" className="nav-link" style={navLinkStyle}>
+              SMP
+            </Link>
+          </NavItem>
 
           <NavItem>
             <Link href="/about" className="nav-link" style={navLinkStyle}>
               About Us
             </Link>
           </NavItem>
+          
 
           <NavItem>
             <Link href="/contact" className="nav-link" style={navLinkStyle}>
