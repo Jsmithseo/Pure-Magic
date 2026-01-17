@@ -144,7 +144,7 @@ export default function SMPPage() {
           </div>
 
           <div className="smp-top-actions">
-            <a className="smp-phone" href="tel:16693322718">
+            <a className="smp-phone" href="tel:9166407271">
               (916) 640 7271
             </a>
           </div>
