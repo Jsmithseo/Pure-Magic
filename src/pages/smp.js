@@ -44,18 +44,14 @@ export default function SMPPage() {
   ];
 
   const results = [
-    "/images/smp/results/1.jpg",
-    "/images/smp/results/2.jpg",
-    "/images/smp/results/3.jpg",
-    "/images/smp/results/4.jpg",
-    "/images/smp/results/5.jpg",
-    "/images/smp/results/6.jpg",
-    "/images/smp/results/7.jpg",
-    "/images/smp/results/8.jpg",
-    "/images/smp/results/9.jpg",
-    "/images/smp/results/10.jpg",
-    "/images/smp/results/11.jpg",
-    "/images/smp/results/12.jpg",
+    "/images/results1.png",
+    "/images/results2.png",
+    "/images/results3.png",
+    "/images/results4.png",
+    "/images/results5.png",
+    "/images/results6.png",
+    "/images/results7.png",
+    "/images/results8.png",
   ];
 
   const faqs = [
