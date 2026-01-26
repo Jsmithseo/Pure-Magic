@@ -93,7 +93,7 @@ export default function SMPPage() {
         <meta name="description" content={desc} />
         <meta
           name="keywords"
-          content="scalp micropigmentation, SMP, hairline restoration, scar camouflage, density SMP, Stockton SMP"
+          content="scalp micropigmentation, SMP, hairline restoration, scar camouflage, density SMP, Oakland SMP"
         />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />
@@ -109,7 +109,7 @@ export default function SMPPage() {
           <Row className="align-items-center g-4">
             <Col lg={7}>
               <p className="smpKicker">Scalp Micropigmentation</p>
-              <h1 className="smpH1">Rediscover Confidence with Infusion SMP</h1>
+              <h1 className="smpH1">Rediscover Confidence with SMP</h1>
               <p className="smpLead">
                 A non-invasive solution that creates the appearance of natural follicles for a clean, realistic look.
                 Designed for your hairline, your tone, and your goals.
@@ -457,6 +457,7 @@ export default function SMPPage() {
       <Footer />
 
       <style jsx global>{`
+
         :root {
           --bg: #0b0c10;
           --card: #11131a;
@@ -769,6 +770,7 @@ export default function SMPPage() {
           .smpHero { padding: 56px 0 44px; }
           .heroCardMedia img { height: 220px; }
         }
+
       `}</style>
     </>
   );
