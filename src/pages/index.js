@@ -76,7 +76,7 @@ function HeroSlider() {
       bg: "/images/hero_bundle.png", // add this image
       eyebrow: "Bundle Deals",
       title: "Valentine Day Special",
-      desc: "2 for $15 | 3 for $25 | 4 for $30 | His & Hers 4 for $30",
+      desc: "Valentine’s Bundles are live. Mix & match your favorites and save: 2 for $15 | 3 for $25 | 4 for $30 His & Hers Bundle: 4 for $30 (2 each).",
       primaryCta: { label: "Shop bundles", href: "/bundles" },
     },
   ];
