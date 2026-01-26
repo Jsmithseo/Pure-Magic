@@ -5,9 +5,7 @@ import Footer from "../components/Footer";
 import ProductsSection from "../components/ProductSection";
 import KokumButter from "../components/KokumButter";
 import PureMagicAttractionSection from "../components/AttractionSection";
-
 import { shopifyFetch } from "../../libs/shopify";
-
 import { Container, Row, Col, Button, Alert, Spinner } from "reactstrap";
 
 const PRODUCTS_QUERY = `
