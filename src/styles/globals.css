@@ -88,7 +88,9 @@ p.jsx-bb0c2fc25bd9737b {
   border: none !important;
 }
 
-
+.jsx-f5d78ba41736c05c .welcome-section {
+  background: black!important;
+}
 
 @media (max-width: 767.98px) {
   .logo {
