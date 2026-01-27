@@ -205,7 +205,7 @@ export default function SMPPage() {
             controls
             playsInline
             preload="metadata"
-            poster="/images/smp/video-poster.jpg"
+            poster="/images/thumbnail.png"
           >
             <source src="/video/smp-overview.mp4" type="video/mp4" />
             Your browser does not support the video tag.

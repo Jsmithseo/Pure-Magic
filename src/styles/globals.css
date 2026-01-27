@@ -114,9 +114,16 @@ p.jsx-bb0c2fc25bd9737b {
   }
 }
 
-
+.product:nth-child(1) {
+  display: none;
+}
 
 video.jsx-3cd3b45dec1666e8.baVideo {
   height: 600px!important;
   width: 600px!important;
+}
+
+
+#products{
+  scroll-margin-top: 90px; /* match navOffset */
 }

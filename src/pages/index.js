@@ -8,6 +8,9 @@ import PureMagicAttractionSection from "../components/AttractionSection";
 import { shopifyFetch } from "../../libs/shopify";
 import { Container, Row, Col, Button, Alert, Spinner } from "reactstrap";
 
+
+
+
 const PRODUCTS_QUERY = `
   query Products($first: Int!) {
     products(first: $first) {
@@ -30,6 +33,9 @@ const PRODUCTS_QUERY = `
     }
   }
 `;
+
+
+
 
 export async function getServerSideProps() {
   try {
@@ -57,9 +63,8 @@ function HeroSlider() {
       bg: "/images/hero_image_home.jpg",
       eyebrow: "Pure Magic",
       title: "Whipped Body Butter",
-      desc:
-        "Rich hydration that keeps skin soft, smooth, and glowing. Clean feel, non-greasy finish, light scent—made for everyday moisture you can feel.",
-      primaryCta: { label: "Shop", href: "/products" },
+      desc: "Rich hydration that keeps skin soft, smooth, and glowing. Clean feel, non-greasy finish, light scent—made for everyday moisture you can feel.",
+      primaryCta: { label: "Shop", href: "/#products" },
     },
     {
       id: "s2",
@@ -71,13 +76,16 @@ function HeroSlider() {
     },
     {
       id: "s3",
-      bg: "/images/hero_bundle.png", // add this image
+      bg: "/images/hero_bundle.png",
       eyebrow: "Bundle Deals",
       title: "Valentine Day Special",
       desc: "Valentine’s Bundles are live. Mix & match your favorites and save: 2 for $15 | 3 for $25 | 4 for $30 His & Hers Bundle: 4 for $30 (2 each).",
-      primaryCta: { label: "Shop bundles", href: "/bundles" },
+      primaryCta: { label: "Shop bundles", href: "/#products" },
     },
   ];
+
+
+  
 
   const AUTOPLAY_MS = 6500;
 
@@ -131,6 +139,27 @@ function HeroSlider() {
   }, [AUTOPLAY_MS, slideCount, isPaused]);
 
   const active = slides[index];
+
+
+  useEffect(() => {
+    const hash = typeof window !== "undefined" ? window.location.hash : "";
+    if (!hash) return;
+  
+    const id = hash.replace("#", "");
+    const el = document.getElementById(id);
+    if (!el) return;
+  
+    // Delay so layout is ready
+    setTimeout(() => {
+      const navOffset = 90; // adjust if your navbar height differs
+      const top = el.getBoundingClientRect().top + window.scrollY - navOffset;
+  
+      window.scrollTo({ top, behavior: "smooth" });
+      // Focus for accessibility (tabIndex=-1 allows programmatic focus)
+      el.focus({ preventScroll: true });
+    }, 0);
+  }, []);
+  
 
   return (
     <section
@@ -482,7 +511,7 @@ export default function Home({ products = [], productsError = "" }) {
       <section className="welcome-section">
         <Container>
           <Row className="justify-content-center">
-            <Col md={12} lg={12}>
+            <Col md={12} lg={12} id="products">
               <h1 className="fw-bold mb-3 welcome-homepahe" style={{ fontSize: "2.3rem", letterSpacing: 1, color: "white" }}>
                 Welcome to Pure Magic
               </h1>
