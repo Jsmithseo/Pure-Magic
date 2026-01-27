@@ -3,10 +3,25 @@ import React, { useState, useRef, useEffect } from "react";
 import MainNavBar from "../components/MainNavBar";
 import Footer from "../components/Footer";
 import ProductsSection from "../components/ProductSection";
-import KokumButter from "../components/KokumButter";
-import PureMagicAttractionSection from "../components/AttractionSection";
-import { shopifyFetch } from "../../libs/shopify";
-import { Container, Row, Col, Button, Alert, Spinner } from "reactstrap";
+import KokumButter from "../components/KokumButter"
+import PureMagicAttractionSection from "../components/AttractionSection"
+
+import { shopifyFetch } from "../../libs/shopify"; // ✅ adjust if your path differs
+
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Alert,
+  Spinner,
+} from "reactstrap";
 
 const PRODUCTS_QUERY = `
   query Products($first: Int!) {
@@ -488,10 +503,16 @@ export default function Home({ products = [], productsError = "" }) {
               </h1>
 
               {productsError ? <p style={{ color: "crimson" }}>{productsError}</p> : null}
-
+              <CartLines />
               <ProductsSection products={products} />
-              <KokumButter />
-              <PureMagicAttractionSection imageSrc="/attraction.png" titleHighlight="Attraction" titleTrail="Factor" ctaHref="/products" />
+              <KokumButter/>
+              <PureMagicAttractionSection
+                imageSrc="/attraction.png"
+                titleHighlight="Attraction"
+                titleTrail="Factor"
+                ctaHref="/products"
+              />
+
             </Col>
           </Row>
         </Container>
