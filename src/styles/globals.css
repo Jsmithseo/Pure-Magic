@@ -118,12 +118,45 @@ p.jsx-bb0c2fc25bd9737b {
   display: none;
 }
 
-video.jsx-3cd3b45dec1666e8.baVideo {
+/* video.jsx-3cd3b45dec1666e8.baVideo {
   height: 600px!important;
   width: 600px!important;
-}
+} */
 
 
 #products{
   scroll-margin-top: 90px; /* match navOffset */
+}
+
+
+
+/* default (desktop) */
+.baVideo {
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 1 / 1;          /* keeps it square */
+  height: auto;                  /* let aspect-ratio drive height */
+}
+
+/* if this is an actual <video> inside .baVideo */
+.baVideo video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;           /* optional */
+  display: block;
+}
+
+/* small screens */
+@media (max-width: 768px) {
+  .baVideo {
+    max-width: 100%;
+    aspect-ratio: 16 / 9;        /* optional: less tall on phones */
+  }
+}
+
+@media (max-width: 420px) {
+  .baVideo {
+    aspect-ratio: 4 / 3;         /* optional: tweak for very small devices */
+  }
 }
