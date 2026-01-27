@@ -326,7 +326,7 @@ export default function SMPPage() {
                 <h3 className="contactTitle">Contact Info</h3>
                 <p className="contactLine">
                   <strong>Phone:</strong>{" "}
-                  <a href="tel:9166407271" className="linkDark">(510)</a>
+                  <a href="tel:9166407271" className="linkDark">(916)640-7271</a>
                 </p>
                 <p className="contactLine">
                   <strong>Email:</strong>{" "}
