@@ -54,6 +54,11 @@ const MainNavBar = () => {
             Body Oil Cologne
             </Link>
           </NavItem> */}
+          <NavItem>
+            <Link href="https://booksy.com/en-us/62767_magic2u-barbershop-supplies_barber-shop_134730_oakland?do=invite&_branch_match_id=1191497502955395994&utm_medium=merchant_customer_invite&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXT07J0UvKz88urtRLzs/VzzIuTg3PyzZMyk0CABTJuv4&utm_source=ig&utm_content=link_in_bio" className="nav-link" style={navLinkStyle}>
+              Book Haircut
+            </Link>
+          </NavItem>
 
 <NavItem>
             <Link href="/smp" className="nav-link" style={navLinkStyle}>
