@@ -1,58 +1,88 @@
-// pages/contact.js
+// pages/intake.js
 "use client";
-import React, { useState, useRef } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+import React, { useState } from "react";
 import {
-  Container, Row, Col, Card, CardBody, Button,
-  Form, FormGroup, Input, Label, Alert, Spinner,
+  Container,
+  Row,
+  Col,
+  Card,
+  CardBody,
+  Button,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Alert,
+  Spinner,
 } from "reactstrap";
 import MainNavBar from "../components/MainNavBar";
 import Footer from "../components/Footer";
 
-const HUBSPOT_PORTAL_ID = "243400623";
-const HUBSPOT_FORM_ID = "797c76ae-ca8a-47a3-82dd-d530a6e0c313";
-const RECAPTCHA_SITE_KEY = "6LeQUZ8rAAAAAGSsXvs6u2QdeamqIiofil95StUo";
+const HUBSPOT_PORTAL_ID = "46783071";
+// ✅ Replace with the HubSpot form ID for THIS form
+const HUBSPOT_FORM_ID = "dc5f0a5c-afaf-42f4-a9bf-d9dff9b6e483";
 
-export default function Contact() {
+
+const REASON_OPTIONS = [
+  "SMP Questions and Booking",
+  "Butters and Oils",
+  "Haircut",
+  "Other",
+];
+
+export default function IntakeFormPage() {
   const [fields, setFields] = useState({
-    firstname: "", lastname: "", email: "", phone: "",
-    company: "", subject: "", message: "",
+    firstname: "",
+    lastname: "",
+    phone: "",
+    email: "",
+    reason: [],
   });
-  const [recaptchaToken, setRecaptchaToken] = useState(null);
+
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
-  const recaptchaRef = useRef(null);
 
-  const handleChange = (e) => setFields({ ...fields, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setFields((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const toggleReason = (option) => {
+    setFields((prev) => {
+      const exists = prev.reason.includes(option);
+      const nextReasons = exists
+        ? prev.reason.filter((x) => x !== option)
+        : [...prev.reason, option];
+      return { ...prev, reason: nextReasons };
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
-    if (!recaptchaToken) {
-      setError("Please complete the captcha.");
-      return;
-    }
-
     setSubmitting(true);
 
     const endpoint = `https://api.hsforms.com/submissions/v3/integration/submit/${HUBSPOT_PORTAL_ID}/${HUBSPOT_FORM_ID}`;
+    const hutk =
+      (document.cookie.match(/(?:^|;\s*)hubspotutk=([^;]*)/) || [])[1] ||
+      undefined;
 
-    // If the HubSpot tracking cookie exists, include it
-    const hutk = (document.cookie.match(/(?:^|;\s*)hubspotutk=([^;]*)/) || [])[1] || undefined;
+    // HubSpot checkbox fields generally expect "A;B;C"
+    const reasonValue = (fields.reason || []).join(";");
 
     const payload = {
-      // Map your local fields to HubSpot fields
-      fields: Object.entries(fields).map(([name, value]) => ({ name, value })),
-      // ✅ IMPORTANT: token belongs at the top level, not inside context
-      hs_recaptcha_response: recaptchaToken,
+      fields: [
+        { name: "firstname", value: fields.firstname },
+        { name: "lastname", value: fields.lastname },
+        { name: "phone", value: fields.phone },
+        { name: "email", value: fields.email },
+        // 🔁 change "reason" if your internal HubSpot field name differs
+        { name: "reason", value: reasonValue },
+      ],
       context: {
         pageUri: typeof window !== "undefined" ? window.location.href : "",
-        pageName: typeof document !== "undefined" ? document.title : "Contact",
+        pageName: typeof document !== "undefined" ? document.title : "Intake",
         ...(hutk ? { hutk } : {}),
       },
-      // If your HubSpot form uses GDPR consent fields, add legalConsentOptions here.
     };
 
     try {
@@ -63,16 +93,16 @@ export default function Contact() {
       });
 
       const body = await res.json();
-      // console.log("HubSpot response:", body);
 
       if (res.ok) {
         setSubmitted(true);
         setFields({
-          firstname: "", lastname: "", email: "", phone: "",
-          company: "", subject: "", message: "",
+          firstname: "",
+          lastname: "",
+          phone: "",
+          email: "",
+          reason: [],
         });
-        setRecaptchaToken(null);
-        recaptchaRef.current?.reset();
       } else {
         const msg =
           body?.errors?.[0]?.message ||
@@ -90,97 +120,110 @@ export default function Contact() {
   return (
     <>
       <MainNavBar />
-      {/* HERO SECTION */}
-      <div
-        style={{
-          background: `linear-gradient(rgba(42,48,56,.40),rgba(42,48,56,.40)), url('/images/hero_contact.jpg') center/cover no-repeat`,
-          minHeight: 800, display: "flex", alignItems: "center", justifyContent: "center",
-        }}
-      >
-        <Container>
-          <h1 className="text-white fw-bold mb-2" style={{ fontSize: "2.3rem", textAlign: "center" }}>
-            Contact Us
-          </h1>
-          <p className="text-white fs-5 mb-0 text-center" style={{ maxWidth: 700, margin: "0 auto", fontWeight: "bold" }}>
-            Let’s start a conversation about your needs. A member of our team will respond promptly.
-          </p>
-        </Container>
-      </div>
 
-        {/* FORM SECTION */}
       <Container className="my-5">
-        <Row className="gy-4 justify-content-center">
-          <Col md={10} lg={8}>
-            <Card className="shadow-sm border-0 rounded-4 h-100">
+        <Row className="justify-content-center">
+          <Col md={11} lg={9} xl={8}>
+            <Card className="shadow-sm border-0 rounded-4">
               <CardBody>
-                <h3 className="fw-bold mb-3" style={{ color: "#228d6e" }}>Get in Touch</h3>
-                <p style={{ fontSize: 17 }}>
-                  Have a question or want more info? Fill out the form below and we’ll get back to you.
-                </p>
+                <h2 className="fw-bold mb-4">Contact</h2>
 
                 {submitted ? (
-                  <Alert color="success">Thank you! Your message has been received. We'll be in touch soon.</Alert>
+                  <Alert color="success" className="mb-0">
+                    Thank you! Your submission has been received.
+                  </Alert>
                 ) : (
                   <Form onSubmit={handleSubmit}>
                     <Row>
                       <Col md={6}>
                         <FormGroup>
-                          <Label for="firstname">First Name</Label>
-                          <Input name="firstname" id="firstname" value={fields.firstname} onChange={handleChange} required />
+                          <Label for="firstname" className="fw-semibold">
+                            First Name
+                          </Label>
+                          <Input
+                            id="firstname"
+                            name="firstname"
+                            value={fields.firstname}
+                            onChange={handleChange}
+                            required
+                          />
                         </FormGroup>
                       </Col>
+
                       <Col md={6}>
                         <FormGroup>
-                          <Label for="lastname">Last Name</Label>
-                          <Input name="lastname" id="lastname" value={fields.lastname} onChange={handleChange} required />
+                          <Label for="lastname" className="fw-semibold">
+                            Last Name
+                          </Label>
+                          <Input
+                            id="lastname"
+                            name="lastname"
+                            value={fields.lastname}
+                            onChange={handleChange}
+                            required
+                          />
                         </FormGroup>
                       </Col>
                     </Row>
 
-                    <Row>
-                      <Col md={6}>
-                        <FormGroup>
-                          <Label for="email">Email</Label>
-                          <Input type="email" name="email" id="email" value={fields.email} onChange={handleChange} required />
-                        </FormGroup>
-                      </Col>
-                      <Col md={6}>
-                        <FormGroup>
-                          <Label for="phone">Phone</Label>
-                          <Input name="phone" id="phone" value={fields.phone} onChange={handleChange} />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-
                     <FormGroup>
-                      <Label for="company">Company</Label>
-                      <Input name="company" id="company" value={fields.company} onChange={handleChange} />
-                    </FormGroup>
-
-                    <FormGroup>
-                      <Label for="subject">Subject</Label>
-                      <Input name="subject" id="subject" value={fields.subject} onChange={handleChange} />
-                    </FormGroup>
-
-                    <FormGroup>
-                      <Label for="message">Message</Label>
-                      <Input type="textarea" name="message" id="message" rows={4} value={fields.message} onChange={handleChange} required />
-                    </FormGroup>
-
-                    {/* CAPTCHA */}
-                    <div className="d-flex justify-content-center my-3">
-                      <ReCAPTCHA
-                        ref={recaptchaRef}
-                        sitekey={RECAPTCHA_SITE_KEY}
-                        onChange={(token) => setRecaptchaToken(token)}
-                        onExpired={() => setRecaptchaToken(null)}
+                      <Label for="phone" className="fw-semibold">
+                        Phone Number
+                      </Label>
+                      <Input
+                        id="phone"
+                        name="phone"
+                        value={fields.phone}
+                        onChange={handleChange}
+                        placeholder="+1 (555) 555-5555"
                       />
-                    </div>
+                    </FormGroup>
 
-                    {error && <Alert color="danger">{error}</Alert>}
+                    <FormGroup>
+                      <Label for="email" className="fw-semibold">
+                        Email <span style={{ color: "crimson" }}>*</span>
+                      </Label>
+                      <Input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={fields.email}
+                        onChange={handleChange}
+                        required
+                      />
+                    </FormGroup>
 
-                    <Button color="primary" disabled={submitting || !recaptchaToken}>
-                      {submitting ? <Spinner size="sm" /> : "Send Message"}
+                    <FormGroup>
+                      <Label className="fw-semibold">Reason</Label>
+                      <div style={{ padding: "6px 0" }}>
+                        {REASON_OPTIONS.map((opt) => {
+                          const checked = fields.reason.includes(opt);
+                          return (
+                            <div
+                              key={opt}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 10,
+                                padding: "8px 0",
+                              }}
+                            >
+                              <Input
+                                type="checkbox"
+                                checked={checked}
+                                onChange={() => toggleReason(opt)}
+                              />
+                              <span style={{ fontSize: 18 }}>{opt}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </FormGroup>
+
+                    {error ? <Alert color="danger">{error}</Alert> : null}
+
+                    <Button color="primary" disabled={submitting}>
+                      {submitting ? <Spinner size="sm" /> : "Submit"}
                     </Button>
                   </Form>
                 )}
@@ -188,11 +231,6 @@ export default function Contact() {
             </Card>
           </Col>
         </Row>
-      </Container>
-
-      {/* CONTACT INFO & MAP (your existing content can stay here) */}
-      <Container className="mt-5 mb-5">
-        {/* ... */}
       </Container>
 
       <Footer />

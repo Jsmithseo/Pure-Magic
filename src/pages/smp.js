@@ -147,7 +147,7 @@ export default function SMPPage() {
                 <div className="heroCardBottom">
 
                   <div className="heroCardCtas">
-                    <a className="btnPrimary full" href="#contact">
+                    <a className="btnPrimary full" href="/contact">
                       BOOK A CONSULTATION
                     </a>
                   </div>
@@ -248,7 +248,7 @@ export default function SMPPage() {
         </div>
 
         <div className="smpHeroActions" style={{ marginTop: 18 }}>
-          <a className="btnPrimary" href="#contact">GET A QUOTE</a>
+          <a className="btnPrimary" href="/contact">GET A QUOTE</a>
         </div>
       </Col>
     </Row>
@@ -272,7 +272,7 @@ export default function SMPPage() {
           </div>
 
           <div className="centerCta">
-            <a className="btnPrimary" href="#contact">BOOK YOUR CONSULTATION</a>
+            <a className="btnPrimary" href="/contact">BOOK YOUR CONSULTATION</a>
           </div>
         </Container>
       </section>
@@ -330,14 +330,14 @@ export default function SMPPage() {
                 </p>
                 <p className="contactLine">
                   <strong>Email:</strong>{" "}
-                  <a href="mailto:info@yourdomain.com" className="linkDark">info@yourdomain.com</a>
+                  <a href="mailto:magic2ubiz@gmail.com" className="linkDark">magic2ubiz@gmail.com</a>
                 </p>
                 <p className="contactLine">
                   <strong>Location:</strong> Oakland, CA (Serving surrounding areas)
                 </p>
 
                 <div className="contactCtas">
-                  <a className="btnPrimary full" href="#pricing">GET PRICING</a>
+                  <a className="btnPrimary full" href="/contact">GET PRICING</a>
                   <Link href="/contact" legacyBehavior>
                     <a className="btnSecondary full">BOOK A CONSULTATION</a>
                   </Link>
