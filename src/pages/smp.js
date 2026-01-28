@@ -404,7 +404,7 @@ export default function SMPPage() {
 
                 <p className="seoCta">
                   Ready to get started?{" "}
-                  <a href="#contact" className="linkMint">
+                  <a href="/contact" className="linkMint">
                     Book your consultation
                   </a>{" "}
                   and we’ll map out a plan that fits your goals.
