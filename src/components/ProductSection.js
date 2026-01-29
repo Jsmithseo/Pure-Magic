@@ -2,14 +2,13 @@ import React, { useMemo, useState } from "react";
 import { useCart } from "../../hooks/useCart";
 
 export default function ProductsSection({ products = [] }) {
-  const { cart, loading, addToCart, checkout, clearLocalCart } = useCart(); // ✅ add clearLocalCart
+  const { cart, loading, addToCart, checkout, clearLocalCart } = useCart();
   const [loadingById, setLoadingById] = useState({});
   const [showAll, setShowAll] = useState(false);
 
   const handleAdd = async (p) => {
     const productId = p.id;
     const variantId = p?.variants?.edges?.[0]?.node?.id;
-
     if (!variantId) return alert("No purchasable variant.");
 
     try {
@@ -22,28 +21,31 @@ export default function ProductsSection({ products = [] }) {
     }
   };
 
-  // ✅ Reset cart handler
   const handleResetCart = () => {
     const ok = window.confirm("Reset cart? This will remove all items from your current cart.");
     if (!ok) return;
 
-    clearLocalCart();      // clears pm_cart_id + state
-    setShowAll(false);     // optional: collapse list back to 5
-    setLoadingById({});    // optional: clear loading states
+    clearLocalCart();
+    setShowAll(false);
+    setLoadingById({});
   };
 
-  // reverse order without mutating props
   const reversedProducts = useMemo(() => [...products].reverse(), [products]);
 
-  // ✅ show 5 unless expanded
   const visibleProducts = useMemo(() => {
     return showAll ? reversedProducts : reversedProducts.slice(7, 12);
   }, [reversedProducts, showAll]);
 
   const canLoadMore = reversedProducts.length > 5;
 
+  // ✅ sticky bar values
+  const itemCount = cart?.totalQuantity || 0;
+  const totalLabel = cart?.cost?.totalAmount?.amount
+    ? `${cart.cost.totalAmount.amount} ${cart.cost.totalAmount.currencyCode || ""}`
+    : "";
+
   return (
-    <section style={{ padding: 24 }}>
+    <section style={{ padding: 24, paddingBottom: itemCount ? 110 : 24 }}>
       {/* Header row with Checkout + Reset */}
       <div
         style={{
@@ -57,7 +59,6 @@ export default function ProductsSection({ products = [] }) {
         <h2 style={{ margin: 0 }}>Products</h2>
 
         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          {/* ✅ Reset Cart */}
           <button
             onClick={handleResetCart}
             disabled={loading}
@@ -75,10 +76,9 @@ export default function ProductsSection({ products = [] }) {
             Reset Cart
           </button>
 
-          {/* Checkout */}
           <button
             onClick={checkout}
-            disabled={!cart?.totalQuantity || loading}
+            disabled={!itemCount || loading}
             style={{
               padding: "10px 14px",
               borderRadius: 10,
@@ -86,11 +86,11 @@ export default function ProductsSection({ products = [] }) {
               background: "#000",
               color: "#fff",
               fontWeight: 800,
-              cursor: !cart?.totalQuantity || loading ? "not-allowed" : "pointer",
-              opacity: !cart?.totalQuantity || loading ? 0.6 : 1,
+              cursor: !itemCount || loading ? "not-allowed" : "pointer",
+              opacity: !itemCount || loading ? 0.6 : 1,
             }}
           >
-            Checkout {cart?.totalQuantity ? `(${cart.totalQuantity})` : ""}
+            Checkout {itemCount ? `(${itemCount})` : ""}
           </button>
         </div>
       </div>
@@ -168,10 +168,64 @@ export default function ProductsSection({ products = [] }) {
         </div>
       ) : null}
 
-      {/* Optional count */}
       {canLoadMore ? (
         <div style={{ marginTop: 10, opacity: 0.75, fontSize: 14, textAlign: "center" }}>
           Showing {visibleProducts.length} of {reversedProducts.length}
+        </div>
+      ) : null}
+
+      {/* ✅ Sticky Checkout Bar */}
+      {itemCount > 0 ? (
+        <div
+          role="region"
+          aria-label="Sticky checkout"
+          style={{
+            position: "fixed",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 9999,
+            background: "rgba(255,255,255,0.98)",
+            borderTop: "1px solid rgba(0,0,0,0.10)",
+            boxShadow: "0 -10px 30px rgba(0,0,0,0.12)",
+            padding: "12px 14px",
+          }}
+        >
+          <div
+            style={{
+              maxWidth: 1100,
+              margin: "0 auto",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 12,
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.2 }}>
+              <div style={{ fontWeight: 900, fontSize: 15 }}>
+                {itemCount} item{itemCount > 1 ? "s" : ""} in cart
+              </div>
+              {totalLabel ? <div style={{ fontSize: 14, opacity: 0.8 }}>{totalLabel}</div> : null}
+            </div>
+
+            <button
+              onClick={checkout}
+              disabled={loading}
+              style={{
+                padding: "12px 16px",
+                borderRadius: 12,
+                border: "none",
+                background: "#000",
+                color: "#fff",
+                fontWeight: 900,
+                cursor: loading ? "not-allowed" : "pointer",
+                opacity: loading ? 0.7 : 1,
+                minWidth: 140,
+              }}
+            >
+              {loading ? "Loading…" : "Checkout"}
+            </button>
+          </div>
         </div>
       ) : null}
     </section>
