@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { useCart } from "../../hooks/useCart";
 
 export default function ProductsSection({ products = [] }) {
-  const { cart, loading, addToCart, checkout } = useCart();
+  const { cart, loading, addToCart, checkout, clearLocalCart } = useCart(); // ✅ add clearLocalCart
   const [loadingById, setLoadingById] = useState({});
   const [showAll, setShowAll] = useState(false);
 
@@ -22,19 +22,29 @@ export default function ProductsSection({ products = [] }) {
     }
   };
 
+  // ✅ Reset cart handler
+  const handleResetCart = () => {
+    const ok = window.confirm("Reset cart? This will remove all items from your current cart.");
+    if (!ok) return;
+
+    clearLocalCart();      // clears pm_cart_id + state
+    setShowAll(false);     // optional: collapse list back to 5
+    setLoadingById({});    // optional: clear loading states
+  };
+
   // reverse order without mutating props
   const reversedProducts = useMemo(() => [...products].reverse(), [products]);
 
-  // show 5 unless expanded
+  // ✅ show 5 unless expanded
   const visibleProducts = useMemo(() => {
-    return showAll ? reversedProducts : reversedProducts.slice(5, 10);
+    return showAll ? reversedProducts : reversedProducts.slice(7, 12);
   }, [reversedProducts, showAll]);
 
   const canLoadMore = reversedProducts.length > 5;
 
   return (
     <section style={{ padding: 24 }}>
-      {/* Header row with Checkout only */}
+      {/* Header row with Checkout + Reset */}
       <div
         style={{
           display: "flex",
@@ -46,22 +56,43 @@ export default function ProductsSection({ products = [] }) {
       >
         <h2 style={{ margin: 0 }}>Products</h2>
 
-        <button
-          onClick={checkout}
-          disabled={!cart?.totalQuantity || loading}
-          style={{
-            padding: "10px 14px",
-            borderRadius: 10,
-            border: "none",
-            background: "#000",
-            color: "#fff",
-            fontWeight: 800,
-            cursor: !cart?.totalQuantity || loading ? "not-allowed" : "pointer",
-            opacity: !cart?.totalQuantity || loading ? 0.6 : 1,
-          }}
-        >
-          Checkout {cart?.totalQuantity ? `(${cart.totalQuantity})` : ""}
-        </button>
+        <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+          {/* ✅ Reset Cart */}
+          <button
+            onClick={handleResetCart}
+            disabled={loading}
+            style={{
+              padding: "10px 14px",
+              borderRadius: 10,
+              border: "1px solid #ddd",
+              background: "#fff",
+              color: "#000",
+              fontWeight: 800,
+              cursor: loading ? "not-allowed" : "pointer",
+              opacity: loading ? 0.6 : 1,
+            }}
+          >
+            Reset Cart
+          </button>
+
+          {/* Checkout */}
+          <button
+            onClick={checkout}
+            disabled={!cart?.totalQuantity || loading}
+            style={{
+              padding: "10px 14px",
+              borderRadius: 10,
+              border: "none",
+              background: "#000",
+              color: "#fff",
+              fontWeight: 800,
+              cursor: !cart?.totalQuantity || loading ? "not-allowed" : "pointer",
+              opacity: !cart?.totalQuantity || loading ? 0.6 : 1,
+            }}
+          >
+            Checkout {cart?.totalQuantity ? `(${cart.totalQuantity})` : ""}
+          </button>
+        </div>
       </div>
 
       {/* Products grid */}
@@ -77,7 +108,11 @@ export default function ProductsSection({ products = [] }) {
           const isLoading = !!loadingById[p.id];
 
           return (
-            <div className="product" key={p.id} style={{ border: "1px solid #eee", borderRadius: 12, padding: 12 }}>
+            <div
+              className="product"
+              key={p.id}
+              style={{ border: "1px solid #eee", borderRadius: 12, padding: 12 }}
+            >
               {p.featuredImage?.url && (
                 <img
                   src={p.featuredImage.url}

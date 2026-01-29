@@ -4,7 +4,6 @@ const CART_ID_KEY = "pm_cart_id";
 
 export function useCart() {
   const [cartId, setCartId] = useState(() => {
-    // ✅ read once on client (prevents waiting for useEffect)
     if (typeof window === "undefined") return null;
     return localStorage.getItem(CART_ID_KEY);
   });
@@ -12,7 +11,10 @@ export function useCart() {
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const getEffectiveCartId = () => cartId || cart?.id || (typeof window !== "undefined" ? localStorage.getItem(CART_ID_KEY) : null);
+  const getEffectiveCartId = () =>
+    cartId ||
+    cart?.id ||
+    (typeof window !== "undefined" ? localStorage.getItem(CART_ID_KEY) : null);
 
   const refreshCart = async () => {
     const id = getEffectiveCartId();
@@ -26,7 +28,6 @@ export function useCart() {
     return json.cart;
   };
 
-  // ✅ auto-load cart whenever cartId becomes available
   useEffect(() => {
     if (!cartId) return;
     refreshCart().catch(() => {});
@@ -101,5 +102,43 @@ export function useCart() {
     if (c?.checkoutUrl) window.location.href = c.checkoutUrl;
   };
 
-  return { cartId, cart, loading, ensureCart, addToCart, removeLine, refreshCart, checkout };
+  // ✅ NEW: clears YOUR cart state (localStorage + React state)
+  const clearLocalCart = () => {
+    if (typeof window === "undefined") return;
+    localStorage.removeItem(CART_ID_KEY);
+    setCartId(null);
+    setCart(null);
+  };
+
+  // ✅ OPTIONAL: wipes all storage for YOUR domain (careful)
+  const clearAllStorage = () => {
+    if (typeof window === "undefined") return;
+    localStorage.clear();
+    sessionStorage.clear();
+    setCartId(null);
+    setCart(null);
+  };
+
+  // ✅ NEW: force a fresh cart + new checkout URL every time
+  const checkoutFresh = async () => {
+    clearLocalCart();
+    const id = await ensureCart();
+    const c = await refreshCart(); // ensures checkoutUrl is present
+    if (c?.checkoutUrl) window.location.href = c.checkoutUrl;
+    return id;
+  };
+
+  return {
+    cartId,
+    cart,
+    loading,
+    ensureCart,
+    addToCart,
+    removeLine,
+    refreshCart,
+    checkout,
+    clearLocalCart,   // ✅ expose
+    clearAllStorage,  // ✅ expose (optional)
+    checkoutFresh,    // ✅ expose
+  };
 }
