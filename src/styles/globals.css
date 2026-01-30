@@ -160,3 +160,9 @@ p.jsx-bb0c2fc25bd9737b {
     aspect-ratio: 4 / 3;         /* optional: tweak for very small devices */
   }
 }
+
+
+
+button {
+  border: 2px solid #fff!important;
+}
