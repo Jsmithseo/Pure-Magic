@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { useCart } from "../../hooks/useCart";
+import { formatMoney } from "../../libs/money"; 
 
 export default function ProductsSection({ products = [] }) {
   const { cart, loading, addToCart, checkout, clearLocalCart } = useCart();
@@ -123,8 +124,11 @@ export default function ProductsSection({ products = [] }) {
 
               <h6 style={{ marginTop: 10 }}>{p.title}</h6>
               <p style={{ opacity: 0.8 }}>
-                {p.priceRange.minVariantPrice.amount} {p.priceRange.minVariantPrice.currencyCode}
-              </p>
+  {formatMoney(
+    p.priceRange.minVariantPrice.amount,
+    p.priceRange.minVariantPrice.currencyCode
+  )}
+</p>
 
               <button
                 onClick={() => handleAdd(p)}
