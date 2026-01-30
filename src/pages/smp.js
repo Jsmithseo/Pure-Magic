@@ -444,12 +444,11 @@ export default function SMPPage() {
       <section className="smpSection smpSectionLight">
         <Container>
           <div className="sectionTitleWrap">
-            <h2 className="smpH2">Our Service Areas</h2>
-            <p className="smpSub">We serve Oakland and surrounding areas. Ask about pop-up dates.</p>
+            <p className="smpSub">We serve Oakland and surrounding areas.</p>
           </div>
 
           <div className="centerCta">
-            <a className="btnPrimary" href="#contact">REQUEST AVAILABILITY</a>
+            <a className="btnPrimary" href="/contact">REQUEST AVAILABILITY</a>
           </div>
         </Container>
       </section>
