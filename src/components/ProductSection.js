@@ -34,7 +34,7 @@ export default function ProductsSection({ products = [] }) {
   const reversedProducts = useMemo(() => [...products].reverse(), [products]);
 
   const visibleProducts = useMemo(() => {
-    return showAll ? reversedProducts : reversedProducts.slice(7, 12);
+    return showAll ? reversedProducts : reversedProducts.slice(0, 6);
   }, [reversedProducts, showAll]);
 
   const canLoadMore = reversedProducts.length > 5;
