@@ -185,89 +185,9 @@ export default function BundlesPage({ products = [], collectionTitle = "Build Yo
 
       <Container style={{ paddingTop: 40, paddingBottom: 60 }}>
         <Row>
-          {/* Product Grid */}
-          <Col lg={8}>
-            <h1 style={{ fontWeight: 800, marginBottom: 8 }}>{collectionTitle}</h1>
-            <div style={{ opacity: 0.75, marginBottom: 18 }}>
-              Choose a tier, add items, and checkout. Promo will apply when your bundle is complete.
-            </div>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-                gap: 16,
-              }}
-            >
-              {products.map((p) => {
-                const variantId = p?.variants?.edges?.[0]?.node?.id;
-
-                const disabled =
-                  loading ||
-                  !variantId ||
-                  !canAddMore ||
-                  busyId === variantId;
-
-                return (
-                  <div
-                    key={p.id}
-                    style={{
-                      border: "1px solid #eee",
-                      borderRadius: 14,
-                      padding: 12,
-                      background: "#fff",
-                    }}
-                  >
-                    {p.featuredImage?.url ? (
-                      <img
-                        src={p.featuredImage.url}
-                        alt={p.featuredImage.altText || p.title}
-                        style={{ width: "100%", height: 220, objectFit: "cover", borderRadius: 12 }}
-                      />
-                    ) : null}
-
-                    <div style={{ marginTop: 12, fontWeight: 800 }}>{p.title}</div>
-                    <div style={{ opacity: 0.75, marginTop: 2 }}>
-                      ${Number(p.priceRange.minVariantPrice.amount).toFixed(2)}
-                    </div>
-
-                    <button
-                      onClick={() => handleAdd(p)}
-                      disabled={disabled}
-                      style={{
-                        width: "100%",
-                        marginTop: 12,
-                        padding: "10px 12px",
-                        borderRadius: 12,
-                        border: "1px solid #111",
-                        background: "#111",
-                        color: "#fff",
-                        fontWeight: 900,
-                        cursor: disabled ? "not-allowed" : "pointer",
-                        opacity: disabled ? 0.65 : 1,
-                      }}
-                    >
-                      {busyId === variantId ? "Adding…" : canAddMore ? "Add" : "Bundle Full"}
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          </Col>
-
-          {/* Sticky Sidebar */}
-          <Col lg={4}>
-            <div
-              ref={sidebarRef}
-              style={{
-                position: "sticky",
-                top: 18,
-                border: "1px solid #eee",
-                borderRadius: 16,
-                padding: 16,
-                background: "#fff",
-              }}
-            >
+          {/* ✅ Sticky Sidebar FIRST on mobile, SECOND on desktop */}
+          <Col lg={4} className="order-1 order-lg-2">
+            <div ref={sidebarRef} className="bundleSidebar">
               <h2 style={{ fontWeight: 900, marginBottom: 6 }}>Build Your Bundle—Save Today!</h2>
               <p style={{ opacity: 0.75, marginTop: 0 }}>
                 Pick a bundle size, add items, then checkout.
@@ -335,7 +255,6 @@ export default function BundlesPage({ products = [], collectionTitle = "Build Yo
                 >
                   {Array.from({ length: tier.size }).map((_, idx) => {
                     const line = lines[idx];
-
                     return (
                       <div
                         key={idx}
@@ -418,9 +337,7 @@ export default function BundlesPage({ products = [], collectionTitle = "Build Yo
                             }}
                           />
                           <div style={{ flex: 1 }}>
-                            <div style={{ fontWeight: 900, fontSize: 14 }}>
-                              {getLineTitle(line)}
-                            </div>
+                            <div style={{ fontWeight: 900, fontSize: 14 }}>{getLineTitle(line)}</div>
                             {typeof line?.quantity === "number" && line.quantity > 1 ? (
                               <div style={{ fontSize: 13, opacity: 0.7 }}>Qty: {line.quantity}</div>
                             ) : null}
@@ -448,7 +365,7 @@ export default function BundlesPage({ products = [], collectionTitle = "Build Yo
                   )}
                 </div>
 
-                {/* Checkout button */}
+                {/* Checkout */}
                 <button
                   onClick={handleCheckout}
                   disabled={loading || itemsAdded < tier.size}
@@ -489,6 +406,91 @@ export default function BundlesPage({ products = [], collectionTitle = "Build Yo
                   Promo applies at completion: <strong>{tier.code}</strong>
                 </div>
               </div>
+
+              {/* ✅ Sticky only on desktop */}
+              <style jsx>{`
+                .bundleSidebar {
+                  border: 1px solid #eee;
+                  border-radius: 16px;
+                  padding: 16px;
+                  background: #fff;
+                  position: static;
+                  margin-bottom: 18px;
+                }
+                @media (min-width: 992px) {
+                  .bundleSidebar {
+                    position: sticky;
+                    top: 18px;
+                    margin-bottom: 0px;
+                  }
+                }
+              `}</style>
+            </div>
+          </Col>
+
+          {/* ✅ Product Grid SECOND on mobile, FIRST on desktop */}
+          <Col lg={8} className="order-2 order-lg-1">
+            <h1 style={{ fontWeight: 800, marginBottom: 8 }}>{collectionTitle}</h1>
+            <div style={{ opacity: 0.75, marginBottom: 18 }}>
+              Choose a tier, add items, and checkout. Promo will apply when your bundle is complete.
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                gap: 16,
+              }}
+            >
+              {products.map((p) => {
+                const variantId = p?.variants?.edges?.[0]?.node?.id;
+
+                const disabled = loading || !variantId || !canAddMore || busyId === variantId;
+
+                return (
+                  <div
+                    key={p.id}
+                    style={{
+                      border: "1px solid #eee",
+                      borderRadius: 14,
+                      padding: 12,
+                      background: "#fff",
+                    }}
+                  >
+                    {p.featuredImage?.url ? (
+                      <img
+                        src={p.featuredImage.url}
+                        alt={p.featuredImage.altText || p.title}
+                        style={{ width: "100%", height: 220, objectFit: "cover", borderRadius: 12 }}
+                      />
+                    ) : null}
+
+                    <div style={{ marginTop: 12, fontWeight: 800 }}>{p.title}</div>
+                    <div style={{ opacity: 0.75, marginTop: 2 }}>
+                      ${Number(p.priceRange.minVariantPrice.amount).toFixed(2)}
+                    </div>
+
+                    <button
+                      onClick={() => handleAdd(p)}
+                      disabled={disabled}
+                      style={{
+                        width: "100%",
+                        marginTop: 12,
+                        padding: "10px 12px",
+                        borderRadius: 12,
+                        border: "1px solid #111",
+                        background: "#111",
+                        color: "#fff",
+                        fontWeight: 900,
+                        cursor: disabled ? "not-allowed" : "pointer",
+                        opacity: disabled ? 0.65 : 1,
+                      }}
+                    >
+                      {busyId === variantId ? "Adding…" : canAddMore ? "Add" : "Bundle Full"}
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </Col>
         </Row>
