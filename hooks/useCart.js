@@ -3,40 +3,17 @@ import { useEffect, useState } from "react";
 const CART_ID_KEY = "pm_cart_id";
 
 export function useCart() {
-  const [cartId, setCartId] = useState(() => {
-    if (typeof window === "undefined") return null;
-    return localStorage.getItem(CART_ID_KEY);
-  });
-
+  const [cartId, setCartId] = useState(null);
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const getEffectiveCartId = () =>
-    cartId ||
-    cart?.id ||
-    (typeof window !== "undefined" ? localStorage.getItem(CART_ID_KEY) : null);
-
-  const refreshCart = async () => {
-    const id = getEffectiveCartId();
-    if (!id) return null;
-
-    const res = await fetch(`/api/cart/get?cartId=${encodeURIComponent(id)}`);
-    const json = await res.json();
-    if (!res.ok) throw new Error(json.error || "Failed to fetch cart");
-
-    setCart(json.cart);
-    return json.cart;
-  };
-
   useEffect(() => {
-    if (!cartId) return;
-    refreshCart().catch(() => {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cartId]);
+    const saved = typeof window !== "undefined" ? localStorage.getItem(CART_ID_KEY) : null;
+    if (saved) setCartId(saved);
+  }, []);
 
   const ensureCart = async () => {
-    const existing = getEffectiveCartId();
-    if (existing) return existing;
+    if (cartId) return cartId;
 
     setLoading(true);
     try {
@@ -47,7 +24,9 @@ export function useCart() {
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Failed to create cart");
 
-      localStorage.setItem(CART_ID_KEY, json.cart.id);
+      if (typeof window !== "undefined") {
+        localStorage.setItem(CART_ID_KEY, json.cart.id);
+      }
       setCartId(json.cart.id);
       setCart(json.cart);
       return json.cart.id;
@@ -58,7 +37,6 @@ export function useCart() {
 
   const addToCart = async (variantId, quantity = 1) => {
     const id = await ensureCart();
-
     setLoading(true);
     try {
       const res = await fetch("/api/cart/add", {
@@ -68,7 +46,6 @@ export function useCart() {
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Failed to add to cart");
-
       setCart(json.cart);
       return json.cart;
     } finally {
@@ -76,20 +53,17 @@ export function useCart() {
     }
   };
 
-  const removeLine = async (lineId) => {
-    const id = getEffectiveCartId();
-    if (!id) throw new Error("No cart yet");
-
+  const removeFromCart = async (lineId) => {
+    if (!cartId) return;
     setLoading(true);
     try {
       const res = await fetch("/api/cart/remove", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cartId: id, lineIds: [lineId] }),
+        body: JSON.stringify({ cartId, lineId }),
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Failed to remove item");
-
       setCart(json.cart);
       return json.cart;
     } finally {
@@ -97,35 +71,50 @@ export function useCart() {
     }
   };
 
+  const applyDiscountCode = async (codes = []) => {
+    const id = await ensureCart();
+    setLoading(true);
+    try {
+      const res = await fetch("/api/cart/discount", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cartId: id, codes }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Failed to apply discount");
+      setCart(json.cart);
+      return json.cart;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const refreshCart = async () => {
+    if (!cartId) return null;
+    const res = await fetch(`/api/cart/get?cartId=${encodeURIComponent(cartId)}`);
+    const json = await res.json();
+    if (res.ok) setCart(json.cart);
+    return json.cart;
+  };
+
+  // ✅ auto-load cart when cartId exists (bundle sidebar shows lines immediately)
+  useEffect(() => {
+    if (!cartId) return;
+    refreshCart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cartId]);
+
+  const clearLocalCart = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(CART_ID_KEY);
+    }
+    setCartId(null);
+    setCart(null);
+  };
+
   const checkout = async () => {
     const c = cart || (await refreshCart());
     if (c?.checkoutUrl) window.location.href = c.checkoutUrl;
-  };
-
-  // ✅ NEW: clears YOUR cart state (localStorage + React state)
-  const clearLocalCart = () => {
-    if (typeof window === "undefined") return;
-    localStorage.removeItem(CART_ID_KEY);
-    setCartId(null);
-    setCart(null);
-  };
-
-  // ✅ OPTIONAL: wipes all storage for YOUR domain (careful)
-  const clearAllStorage = () => {
-    if (typeof window === "undefined") return;
-    localStorage.clear();
-    sessionStorage.clear();
-    setCartId(null);
-    setCart(null);
-  };
-
-  // ✅ NEW: force a fresh cart + new checkout URL every time
-  const checkoutFresh = async () => {
-    clearLocalCart();
-    const id = await ensureCart();
-    const c = await refreshCart(); // ensures checkoutUrl is present
-    if (c?.checkoutUrl) window.location.href = c.checkoutUrl;
-    return id;
   };
 
   return {
@@ -134,11 +123,10 @@ export function useCart() {
     loading,
     ensureCart,
     addToCart,
-    removeLine,
+    removeFromCart,
+    applyDiscountCode,
     refreshCart,
+    clearLocalCart,
     checkout,
-    clearLocalCart,   // ✅ expose
-    clearAllStorage,  // ✅ expose (optional)
-    checkoutFresh,    // ✅ expose
   };
 }
