@@ -82,6 +82,14 @@ function HeroSlider() {
       desc: "Valentine’s Bundles are live. Mix & match your favorites and save—get 2 for $15 with code VAL2FOR25, or 3 for $25 with code VAL3FOR40. Want to bundle together? Our His & Hers Bundle is 4 for $30 (2 each) with code VAL4FOR55. Enter the promo code at checkout to apply your bundle pricing.(valid for 2oz butters)",
       primaryCta: { label: "Shop bundles", href: "/#products" },
     },
+    {
+      id: "s4",
+      bg: "/images/haircut_hero_image.png",
+      eyebrow: "Premium Haircuts",
+      title: "Schedule Appointment",
+      desc: "The Pure Magic Experience is more than a haircut—it’s a reset. Precision fades, crisp lineups, and detail work in a clean, calm shop. optional beard work, and tips so you stay fresh between visits. Book once—feel the difference Now.",
+      primaryCta: { label: "Book Now", href: "https://booksy.com/en-us/62767_magic2u-barbershop-supplies_barber-shop_134730_oakland?do=invite&_branch_match_id=1191497502955395994&utm_medium=merchant_customer_invite&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXT07J0UvKz88urtRLzs%2FVzzIuTg3PyzZMyk0CABTJuv4&utm_source=ig&utm_content=link_in_bio" },
+    },
   ];
 
 
