@@ -1,6 +1,29 @@
 import React, { useMemo, useState } from "react";
 import { useCart } from "../../hooks/useCart";
-import { formatMoney } from "../../libs/money"; 
+import { formatMoney } from "../../libs/money";
+
+const BUTTER_TYPE_KEYWORDS = ["butter", "body butter", "whip", "whipped"];
+const BUTTER_TAG_KEYWORDS = ["butter", "body-butter", "whip", "whipped", "whip-it-babies"];
+
+// ✅ only show butters, exclude apparel
+const isButterProduct = (p) => {
+  const type = String(p?.productType || "").toLowerCase();
+  const tags = (p?.tags || []).map((t) => String(t).toLowerCase());
+  const title = String(p?.title || "").toLowerCase();
+
+  const typeMatch = BUTTER_TYPE_KEYWORDS.some((k) => type.includes(k));
+  const tagMatch = BUTTER_TAG_KEYWORDS.some((k) => tags.includes(k));
+  const titleMatch = BUTTER_TYPE_KEYWORDS.some((k) => title.includes(k));
+
+  // ✅ explicitly exclude apparel if it slips in
+  const apparelType = type.includes("apparel") || type.includes("shirt") || type.includes("hoodie") || type.includes("hat");
+  const apparelTag =
+    tags.includes("apparel") || tags.includes("clothing") || tags.includes("hoodie") || tags.includes("shirt") || tags.includes("hat");
+
+  if (apparelType || apparelTag) return false;
+
+  return typeMatch || tagMatch || titleMatch;
+};
 
 export default function ProductsSection({ products = [] }) {
   const { cart, loading, addToCart, checkout, clearLocalCart } = useCart();
@@ -31,13 +54,16 @@ export default function ProductsSection({ products = [] }) {
     setLoadingById({});
   };
 
-  const reversedProducts = useMemo(() => [...products].reverse(), [products]);
+  // ✅ filter to butters only, then reverse for newest-last behavior
+  const butterProducts = useMemo(() => products.filter(isButterProduct), [products]);
+
+  const reversedProducts = useMemo(() => [...butterProducts].reverse(), [butterProducts]);
 
   const visibleProducts = useMemo(() => {
     return showAll ? reversedProducts : reversedProducts.slice(0, 6);
   }, [reversedProducts, showAll]);
 
-  const canLoadMore = reversedProducts.length > 5;
+  const canLoadMore = reversedProducts.length > 6;
 
   // ✅ sticky bar values
   const itemCount = cart?.totalQuantity || 0;
@@ -57,7 +83,7 @@ export default function ProductsSection({ products = [] }) {
           flexWrap: "wrap",
         }}
       >
-        <h2 style={{ margin: 0 }}>Products</h2>
+        <h2 style={{ margin: 0 }}>Butters</h2>
 
         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
           <button
@@ -115,20 +141,36 @@ export default function ProductsSection({ products = [] }) {
               style={{ border: "1px solid #eee", borderRadius: 12, padding: 12 }}
             >
               {p.featuredImage?.url && (
-                <img
-                  src={p.featuredImage.url}
-                  alt={p.featuredImage.altText || p.title}
-                  style={{ width: "100%", height: 180, objectFit: "cover", borderRadius: 10 }}
-                />
+                <div
+                  style={{
+                    width: "100%",
+                    height: 180,
+                    borderRadius: 10,
+                    background: "#f6f6f6",
+                    overflow: "hidden",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img
+                    src={p.featuredImage.url}
+                    alt={p.featuredImage.altText || p.title}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "contain", // ✅ shows full jar
+                      padding: 10,
+                    }}
+                  />
+                </div>
               )}
 
               <h6 style={{ marginTop: 10 }}>{p.title}</h6>
+
               <p style={{ opacity: 0.8 }}>
-  {formatMoney(
-    p.priceRange.minVariantPrice.amount,
-    p.priceRange.minVariantPrice.currencyCode
-  )}
-</p>
+                {formatMoney(p.priceRange.minVariantPrice.amount, p.priceRange.minVariantPrice.currencyCode)}
+              </p>
 
               <button
                 onClick={() => handleAdd(p)}
@@ -172,11 +214,15 @@ export default function ProductsSection({ products = [] }) {
         </div>
       ) : null}
 
-      {canLoadMore ? (
+      {reversedProducts.length ? (
         <div style={{ marginTop: 10, opacity: 0.75, fontSize: 14, textAlign: "center" }}>
           Showing {visibleProducts.length} of {reversedProducts.length}
         </div>
-      ) : null}
+      ) : (
+        <div style={{ marginTop: 12, opacity: 0.75 }}>
+          No butters found. Add a <strong>butter</strong> tag or set Product Type to <strong>Butter</strong>.
+        </div>
+      )}
 
       {/* ✅ Sticky Checkout Bar */}
       {itemCount > 0 ? (
