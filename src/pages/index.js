@@ -75,14 +75,6 @@ function HeroSlider() {
       primaryCta: { label: "learn More", href: "/smp" },
     },
     {
-      id: "s3",
-      bg: "/images/hero_bundle.png",
-      eyebrow: "Bundle Deals",
-      title: "Valentine Day Special",
-      desc: "Valentine’s Bundles are live. Mix & match your favorites and save—get 2 for $15 with code VAL2FOR25, or 3 for $25 with code VAL3FOR40. Want to bundle together? Our His & Hers Bundle is 4 for $30 (2 each) with code VAL4FOR55. Enter the promo code at checkout to apply your bundle pricing.(valid for 2oz butters)",
-      primaryCta: { label: "build a bundle", href: "/bundles" },
-    },
-    {
       id: "s4",
       bg: "/images/haircut_hero_image.png",
       eyebrow: "Premium Haircuts",

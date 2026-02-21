@@ -136,9 +136,14 @@ export default function ProductsSection({ products = [] }) {
 
           return (
             <div
-              className="product"
-              key={p.id}
-              style={{ border: "1px solid #eee", borderRadius: 12, padding: 12 }}
+            className="product"
+            key={p.id}
+            style={{ border: "1px solid #eee", borderRadius: 12, padding: 12 }}
+          >
+            {/* ✅ CLICKABLE product link */}
+            <a
+              href={`/products/${p.handle}`}
+              style={{ textDecoration: "none", color: "inherit", display: "block" }}
             >
               {p.featuredImage?.url && (
                 <div
@@ -159,38 +164,50 @@ export default function ProductsSection({ products = [] }) {
                     style={{
                       width: "100%",
                       height: "100%",
-                      objectFit: "contain", // ✅ shows full jar
+                      objectFit: "contain",
                       padding: 10,
                     }}
                   />
                 </div>
               )}
-
+          
               <h6 style={{ marginTop: 10 }}>{p.title}</h6>
-
-              <p style={{ opacity: 0.8 }}>
+          
+              <p style={{ opacity: 0.8, marginBottom: 0 }}>
                 {formatMoney(p.priceRange.minVariantPrice.amount, p.priceRange.minVariantPrice.currencyCode)}
               </p>
-
-              <button
-                onClick={() => handleAdd(p)}
-                disabled={isLoading}
-                style={{
-                  width: "100%",
-                  marginTop: 12,
-                  padding: "10px 12px",
-                  borderRadius: 10,
-                  border: "none",
-                  background: "#000",
-                  color: "#fff",
-                  fontWeight: 700,
-                  cursor: isLoading ? "not-allowed" : "pointer",
-                  opacity: isLoading ? 0.8 : 1,
-                }}
-              >
-                {isLoading ? "Adding…" : "Add to Cart"}
-              </button>
-            </div>
+          
+              {/* Optional label to hint click */}
+              <div style={{ marginTop: 8, fontWeight: 900, fontSize: 13, opacity: 0.8 }}>
+                View Product →
+              </div>
+            </a>
+          
+            {/* ✅ Keep Add to Cart separate so clicking it doesn't navigate */}
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleAdd(p);
+              }}
+              disabled={isLoading}
+              style={{
+                width: "100%",
+                marginTop: 12,
+                padding: "10px 12px",
+                borderRadius: 10,
+                border: "none",
+                background: "#000",
+                color: "#fff",
+                fontWeight: 700,
+                cursor: isLoading ? "not-allowed" : "pointer",
+                opacity: isLoading ? 0.8 : 1,
+              }}
+            >
+              {isLoading ? "Adding…" : "Add to Cart"}
+            </button>
+          </div>
+          
           );
         })}
       </div>
