@@ -67,12 +67,12 @@ function HeroSlider() {
       primaryCta: { label: "Shop", href: "/#products" },
     },
     {
-      id: "s2",
-      bg: "/images/hero_smp.png", // add this image
-      eyebrow: "Special Services",
-      title: "Scalp Micropigmentation",
-      desc: "Scalp Micropigmentation (SMP) is a non-invasive cosmetic procedure that uses micro-dots of pigment to replicate the appearance of natural hair follicles. ",
-      primaryCta: { label: "learn More", href: "/smp" },
+      id: "s4",
+      bg: "/images/apperal.png",
+      eyebrow: "Apparel",
+      title: "Shop Apparel",
+      desc: "Pure Magic Apparel brings clean, confident style—premium tees, hoodies, and hats made for everyday wear. Bold branding, soft feel, and quality fits that match the Pure Magic vibe",
+      primaryCta: { label: "Show Now", href: "/apparel" },
     },
     {
       id: "s4",
@@ -81,6 +81,14 @@ function HeroSlider() {
       title: "Schedule Appointment",
       desc: "The Pure Magic Experience is more than a haircut—it’s a reset. Precision fades, crisp lineups, and detail work in a clean, calm shop. optional beard work, and tips so you stay fresh between visits. Book once—feel the difference Now.",
       primaryCta: { label: "Book Now", href: "https://booksy.com/en-us/62767_magic2u-barbershop-supplies_barber-shop_134730_oakland?do=invite&_branch_match_id=1191497502955395994&utm_medium=merchant_customer_invite&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXT07J0UvKz88urtRLzs%2FVzzIuTg3PyzZMyk0CABTJuv4&utm_source=ig&utm_content=link_in_bio" },
+    },
+    {
+      id: "s2",
+      bg: "/images/hero_smp.png", // add this image
+      eyebrow: "Special Services",
+      title: "Scalp Micropigmentation",
+      desc: "Scalp Micropigmentation (SMP) is a non-invasive cosmetic procedure that uses micro-dots of pigment to replicate the appearance of natural hair follicles. ",
+      primaryCta: { label: "learn More", href: "/smp" },
     },
   ];
 
