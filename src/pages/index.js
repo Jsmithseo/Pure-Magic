@@ -67,6 +67,14 @@ function HeroSlider() {
       primaryCta: { label: "Shop", href: "/#products" },
     },
     {
+      id: "s1",
+      bg: "/images/oils.png",
+      eyebrow: "Pure Magic",
+      title: "Pure Magic Body Oils",
+      desc: "Rich hydration that keeps skin soft, smooth, and glowing. Clean feel, non-greasy finish, light scent—made for everyday moisture you can feel.",
+      primaryCta: { label: "Shop", href: "/#products" },
+    },
+    {
       id: "s4",
       bg: "/images/apperal.png",
       eyebrow: "Apparel",
