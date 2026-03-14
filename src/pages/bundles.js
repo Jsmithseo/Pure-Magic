@@ -402,9 +402,9 @@ export default function BundlesPage({ products = [], collectionTitle = "Build Yo
                   Reset Bundle
                 </button>
 
-                <div style={{ marginTop: 10, fontSize: 13, opacity: 0.75 }}>
+                {/* <div style={{ marginTop: 10, fontSize: 13, opacity: 0.75 }}>
                   Promo applies at completion: <strong>{tier.code}</strong>
-                </div>
+                </div> */}
               </div>
 
               {/* ✅ Sticky only on desktop */}
