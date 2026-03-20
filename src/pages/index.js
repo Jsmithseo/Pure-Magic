@@ -6,10 +6,17 @@ import ProductsSection from "../components/ProductSection";
 import KokumButter from "../components/KokumButter";
 import PureMagicAttractionSection from "../components/AttractionSection";
 import { shopifyFetch } from "../../libs/shopify";
-import { Container, Row, Col, Button, Alert, Spinner } from "reactstrap";
-
-
-
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Alert,
+  Spinner,
+  Modal,
+  ModalBody,
+  ModalHeader,
+} from "reactstrap";
 
 const PRODUCTS_QUERY = `
   query Products($first: Int!) {
@@ -34,9 +41,6 @@ const PRODUCTS_QUERY = `
   }
 `;
 
-
-
-
 export async function getServerSideProps() {
   try {
     const data = await shopifyFetch(PRODUCTS_QUERY, { first: 50 });
@@ -57,6 +61,11 @@ export async function getServerSideProps() {
  * - CTA panel on the right (or left on mobile)
  */
 function HeroSlider() {
+  const BOOKSY_LINK =
+    "https://booksy.com/en-us/62767_magic2u-barbershop-supplies_barber-shop_134730_oakland?do=invite&_branch_match_id=1191497502955395994&utm_medium=merchant_customer_invite&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXT07J0UvKz88urtRLzs%2FVzzIuTg3PyzZMyk0CABTJuv4&utm_source=ig&utm_content=link_in_bio";
+
+  const BOOKING_VIDEO_SRC = "../../../../video/pure-magic-booking-video.mp4";
+
   const slides = [
     {
       id: "s1",
@@ -67,7 +76,7 @@ function HeroSlider() {
       primaryCta: { label: "Shop", href: "/#products" },
     },
     {
-      id: "s1",
+      id: "s1-oils",
       bg: "/images/oils.png",
       eyebrow: "Pure Magic",
       title: "Pure Magic Body Oils",
@@ -75,7 +84,7 @@ function HeroSlider() {
       primaryCta: { label: "Shop", href: "/#products" },
     },
     {
-      id: "s4",
+      id: "s4-apparel",
       bg: "/images/apperal.png",
       eyebrow: "Apparel",
       title: "Shop Apparel",
@@ -83,16 +92,20 @@ function HeroSlider() {
       primaryCta: { label: "Show Now", href: "/apparel" },
     },
     {
-      id: "s4",
+      id: "s4-book",
       bg: "/images/haircut_hero_image.png",
       eyebrow: "Premium Haircuts",
       title: "Schedule Appointment",
       desc: "The Pure Magic Experience is more than a haircut—it’s a reset. Precision fades, crisp lineups, and detail work in a clean, calm shop. optional beard work, and tips so you stay fresh between visits. Book once—feel the difference Now.",
-      primaryCta: { label: "Book Now", href: "https://booksy.com/en-us/62767_magic2u-barbershop-supplies_barber-shop_134730_oakland?do=invite&_branch_match_id=1191497502955395994&utm_medium=merchant_customer_invite&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXT07J0UvKz88urtRLzs%2FVzzIuTg3PyzZMyk0CABTJuv4&utm_source=ig&utm_content=link_in_bio" },
+      primaryCta: {
+        label: "Book Now",
+        href: BOOKSY_LINK,
+        opensModal: true,
+      },
     },
     {
       id: "s2",
-      bg: "/images/hero_smp.png", // add this image
+      bg: "/images/hero_smp.png",
       eyebrow: "Special Services",
       title: "Scalp Micropigmentation",
       desc: "Scalp Micropigmentation (SMP) is a non-invasive cosmetic procedure that uses micro-dots of pigment to replicate the appearance of natural hair follicles. ",
@@ -100,14 +113,13 @@ function HeroSlider() {
     },
   ];
 
-
-  
-
   const AUTOPLAY_MS = 6500;
 
   const [index, setIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [progress, setProgress] = useState(0); // 0..100
+  const [progress, setProgress] = useState(0);
+  const [bookModalOpen, setBookModalOpen] = useState(false);
+  const [videoKey, setVideoKey] = useState(0);
 
   const rafRef = useRef(null);
   const startRef = useRef(null);
@@ -125,21 +137,22 @@ function HeroSlider() {
 
   const next = () => goTo(index + 1);
   const prev = () => goTo(index - 1);
+  const toggleBookModal = () => setBookModalOpen((prevState) => !prevState);
 
   useEffect(() => {
-    // animate progress bar (requestAnimationFrame) to avoid setInterval drift
     const tick = (ts) => {
       if (isPaused) {
         rafRef.current = requestAnimationFrame(tick);
         return;
       }
+
       if (!startRef.current) startRef.current = ts;
+
       const elapsed = ts - startRef.current;
       const pct = Math.min((elapsed / AUTOPLAY_MS) * 100, 100);
       setProgress(pct);
 
       if (elapsed >= AUTOPLAY_MS) {
-        // advance
         startRef.current = null;
         setProgress(0);
         setIndex((prevIdx) => (prevIdx + 1) % slideCount);
@@ -149,6 +162,7 @@ function HeroSlider() {
     };
 
     rafRef.current = requestAnimationFrame(tick);
+
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
@@ -156,296 +170,363 @@ function HeroSlider() {
 
   const active = slides[index];
 
-
   useEffect(() => {
     const hash = typeof window !== "undefined" ? window.location.hash : "";
     if (!hash) return;
-  
+
     const id = hash.replace("#", "");
     const el = document.getElementById(id);
     if (!el) return;
-  
-    // Delay so layout is ready
+
     setTimeout(() => {
-      const navOffset = 90; // adjust if your navbar height differs
+      const navOffset = 90;
       const top = el.getBoundingClientRect().top + window.scrollY - navOffset;
-  
+
       window.scrollTo({ top, behavior: "smooth" });
-      // Focus for accessibility (tabIndex=-1 allows programmatic focus)
       el.focus({ preventScroll: true });
     }, 0);
   }, []);
-  
+
+  useEffect(() => {
+    if (bookModalOpen) {
+      setVideoKey((prev) => prev + 1);
+    }
+  }, [bookModalOpen]);
 
   return (
-    <section
-      className="heroSlider"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      aria-label="Homepage hero slider"
-    >
-      {/* Background */}
-      <div
-        className="heroBg"
-        style={{ backgroundImage: `url("${active.bg}")` }}
-        role="img"
-        aria-label={active.title}
-      />
+    <>
+      <section
+        className="heroSlider"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        aria-label="Homepage hero slider"
+      >
+        {/* Background */}
+        <div
+          className="heroBg"
+          style={{ backgroundImage: `url("${active.bg}")` }}
+          role="img"
+          aria-label={active.title}
+        />
 
-      {/* Overlay content */}
-      <div className="heroInner">
-        <div className="ctaCard">
-          <div className="eyebrow">{active.eyebrow}</div>
-          <h1 className="heroTitle">{active.title}</h1>
-          <p className="heroDesc">{active.desc}</p>
+        {/* Overlay content */}
+        <div className="heroInner">
+          <div className="ctaCard">
+            <div className="eyebrow">{active.eyebrow}</div>
+            <h1 className="heroTitle">{active.title}</h1>
+            <p className="heroDesc">{active.desc}</p>
 
-          <div className="ctaRow">
-            <a className="btnPrimary" href={active.primaryCta.href}>
-              {active.primaryCta.label}
-            </a>
-            {active.secondaryCta ? (
-              <a className="btnSecondary" href={active.secondaryCta.href}>
-                {active.secondaryCta.label}
-              </a>
-            ) : null}
-          </div>
-
-          {/* Timer / progress */}
-          <div className="timerWrap" aria-hidden="true">
-            <div className="timerBar" style={{ width: `${progress}%` }} />
-          </div>
-
-          {/* Controls */}
-          <div className="controls">
-            <button className="navBtn" onClick={prev} aria-label="Previous slide">
-              ‹
-            </button>
-
-            <div className="dots" role="tablist" aria-label="Hero slides">
-              {slides.map((s, i) => (
+            <div className="ctaRow">
+              {active.primaryCta?.opensModal ? (
                 <button
-                  key={s.id}
-                  className={`dot ${i === index ? "active" : ""}`}
-                  onClick={() => goTo(i)}
-                  role="tab"
-                  aria-selected={i === index}
-                  aria-label={`Go to slide ${i + 1}`}
-                />
-              ))}
+                  type="button"
+                  className="btnPrimary btnPrimaryReset"
+                  onClick={toggleBookModal}
+                >
+                  {active.primaryCta.label}
+                </button>
+              ) : (
+                <a className="btnPrimary" href={active.primaryCta.href}>
+                  {active.primaryCta.label}
+                </a>
+              )}
+
+              {active.secondaryCta ? (
+                <a className="btnSecondary" href={active.secondaryCta.href}>
+                  {active.secondaryCta.label}
+                </a>
+              ) : null}
             </div>
 
-            <button className="navBtn" onClick={next} aria-label="Next slide">
-              ›
-            </button>
+            {/* Timer / progress */}
+            <div className="timerWrap" aria-hidden="true">
+              <div className="timerBar" style={{ width: `${progress}%` }} />
+            </div>
+
+            {/* Controls */}
+            <div className="controls">
+              <button className="navBtn" onClick={prev} aria-label="Previous slide">
+                ‹
+              </button>
+
+              <div className="dots" role="tablist" aria-label="Hero slides">
+                {slides.map((s, i) => (
+                  <button
+                    key={`${s.id}-${i}`}
+                    className={`dot ${i === index ? "active" : ""}`}
+                    onClick={() => goTo(i)}
+                    role="tab"
+                    aria-selected={i === index}
+                    aria-label={`Go to slide ${i + 1}`}
+                  />
+                ))}
+              </div>
+
+              <button className="navBtn" onClick={next} aria-label="Next slide">
+                ›
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <style jsx global>{`
-
-section.jsx-e1da81568869a5.welcome-section {
-  background: black!important;
-
-}
-        .heroSlider {
-          position: relative;
-          width: 100%;
-          height: min(700px, 86vh);
-          overflow: hidden;
-          background: #e9f6fa;
+        <style jsx global>{`
+          section.jsx-e1da81568869a5.welcome-section {
+            background: black !important;
+          }
+          section.jsx-f5d78ba41736c05c.welcome-section {
+            background-color: #000;
         }
 
-        .heroBg {
-          position: absolute;
-          inset: 0;
-          background-position: center;
-          background-repeat: no-repeat;
-          background-size: cover;
-          transform: scale(1.02);
-          filter: saturate(1.02);
-        }
+          .heroSlider {
+            position: relative;
+            width: 100%;
+            height: min(700px, 86vh);
+            overflow: hidden;
+            background: #e9f6fa;
+          }
 
-        /* subtle dark overlay for text contrast */
-        .heroSlider::after {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-            90deg,
-            rgba(0, 0, 0, 0.05) 0%,
-            rgba(0, 0, 0, 0.15) 55%,
-            rgba(0, 0, 0, 0.25) 100%
-          );
-          pointer-events: none;
-        }
+          .heroBg {
+            position: absolute;
+            inset: 0;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            transform: scale(1.02);
+            filter: saturate(1.02);
+          }
 
-        .heroInner {
-          position: relative;
-          z-index: 2;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          padding: 28px 40px;
-        }
+          /* subtle dark overlay for text contrast */
+          .heroSlider::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+              90deg,
+              rgba(0, 0, 0, 0.05) 0%,
+              rgba(0, 0, 0, 0.15) 55%,
+              rgba(0, 0, 0, 0.25) 100%
+            );
+            pointer-events: none;
+          }
 
-        .ctaCard {
-          width: min(520px, 92vw);
-          background: rgba(255, 255, 255, 0.88);
-          backdrop-filter: blur(8px);
-          border-radius: 14px;
-          padding: 20px 22px 16px;
-          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
-        }
-
-        .eyebrow {
-          font-size: 0.9rem;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          font-weight: 700;
-          color: #203354;
-          opacity: 0.9;
-          margin-bottom: 6px;
-        }
-
-        .heroTitle {
-          font-size: clamp(1.8rem, 3.2vw, 2.5rem);
-          font-weight: 800;
-          margin: 0 0 10px;
-          color: #203354;
-          line-height: 1.15;
-        }
-
-        .heroDesc {
-          font-size: clamp(1.02rem, 1.6vw, 1.2rem);
-          margin: 0 0 14px;
-          color: #1b1b1b;
-          line-height: 1.5;
-        }
-
-        .ctaRow {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
-          margin-bottom: 12px;
-        }
-
-        .btnPrimary,
-        .btnSecondary {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          padding: 11px 16px;
-          border-radius: 10px;
-          font-weight: 800;
-          border: 1px solid transparent;
-          transition: transform 0.12s ease, opacity 0.12s ease;
-          text-decoration: none;
-        }
-
-        .btnPrimary {
-          background: #1d7acb;
-          color: #fff;
-        }
-
-        .btnSecondary {
-          background: transparent;
-          border-color: rgba(32, 51, 84, 0.25);
-          color: #203354;
-        }
-
-        .btnPrimary:hover,
-        .btnSecondary:hover {
-          transform: translateY(-1px);
-          opacity: 0.96;
-        }
-
-        .timerWrap {
-          width: 100%;
-          height: 6px;
-          background: rgba(32, 51, 84, 0.14);
-          border-radius: 999px;
-          overflow: hidden;
-        }
-
-        .timerBar {
-          height: 100%;
-          background: #203354;
-          width: 0%;
-          border-radius: 999px;
-          transition: width 80ms linear;
-        }
-
-        .controls {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
-          margin-top: 10px;
-        }
-
-        .navBtn {
-          width: 36px;
-          height: 36px;
-          border-radius: 10px;
-          border: 1px solid rgba(32, 51, 84, 0.15);
-          background: rgba(255, 255, 255, 0.85);
-          color: #203354;
-          font-size: 22px;
-          font-weight: 900;
-          line-height: 1;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-        }
-
-        .dots {
-          display: flex;
-          gap: 8px;
-          align-items: center;
-          justify-content: center;
-          flex: 1;
-        }
-
-        .dot {
-          width: 9px;
-          height: 9px;
-          border-radius: 999px;
-          border: 0;
-          background: rgba(32, 51, 84, 0.25);
-          cursor: pointer;
-        }
-
-        .dot.active {
-          background: #203354;
-          width: 22px;
-        }
-
-        @media (max-width: 768px) {
           .heroInner {
-            justify-content: center;
-            padding: 18px 16px;
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 28px 40px;
           }
-          .ctaCard {
-            padding: 18px 16px 14px;
-          }
-          .controls {
-            gap: 10px;
-          }
-        }
 
-        @media (prefers-reduced-motion: reduce) {
-          .timerBar {
-            transition: none;
+          .ctaCard {
+            width: min(520px, 92vw);
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(8px);
+            border-radius: 14px;
+            padding: 20px 22px 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
           }
+
+          .eyebrow {
+            font-size: 0.9rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #203354;
+            opacity: 0.9;
+            margin-bottom: 6px;
+          }
+
+          .heroTitle {
+            font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+            font-weight: 800;
+            margin: 0 0 10px;
+            color: #203354;
+            line-height: 1.15;
+          }
+
+          .heroDesc {
+            font-size: clamp(1.02rem, 1.6vw, 1.2rem);
+            margin: 0 0 14px;
+            color: #1b1b1b;
+            line-height: 1.5;
+          }
+
+          .ctaRow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+          }
+
+          .btnPrimary,
+          .btnSecondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 11px 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            border: 1px solid transparent;
+            transition: transform 0.12s ease, opacity 0.12s ease;
+            text-decoration: none;
+          }
+
+          .btnPrimary {
+            background: #1d7acb;
+            color: #fff;
+          }
+
+          .btnSecondary {
+            background: transparent;
+            border-color: rgba(32, 51, 84, 0.25);
+            color: #203354;
+          }
+
           .btnPrimary:hover,
           .btnSecondary:hover {
-            transform: none;
+            transform: translateY(-1px);
+            opacity: 0.96;
           }
-        }
-      `}</style>
-    </section>
+
+          .btnPrimaryReset {
+            border: none;
+            cursor: pointer;
+          }
+
+          .timerWrap {
+            width: 100%;
+            height: 6px;
+            background: rgba(32, 51, 84, 0.14);
+            border-radius: 999px;
+            overflow: hidden;
+          }
+
+          .timerBar {
+            height: 100%;
+            background: #203354;
+            width: 0%;
+            border-radius: 999px;
+            transition: width 80ms linear;
+          }
+
+          .controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 10px;
+          }
+
+          .navBtn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid rgba(32, 51, 84, 0.15);
+            background: rgba(255, 255, 255, 0.85);
+            color: #203354;
+            font-size: 22px;
+            font-weight: 900;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+          }
+
+          .dots {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+          }
+
+          .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 999px;
+            border: 0;
+            background: rgba(32, 51, 84, 0.25);
+            cursor: pointer;
+          }
+
+          .dot.active {
+            background: #203354;
+            width: 22px;
+          }
+
+          @media (max-width: 768px) {
+            .heroInner {
+              justify-content: center;
+              padding: 18px 16px;
+            }
+            .ctaCard {
+              padding: 18px 16px 14px;
+            }
+            .controls {
+              gap: 10px;
+            }
+          }
+
+          @media (prefers-reduced-motion: reduce) {
+            .timerBar {
+              transition: none;
+            }
+            .btnPrimary:hover,
+            .btnSecondary:hover {
+              transform: none;
+            }
+          }
+        `}</style>
+      </section>
+
+      <Modal isOpen={bookModalOpen} toggle={toggleBookModal} centered size="lg">
+        <ModalHeader toggle={toggleBookModal}>Book Your Appointment</ModalHeader>
+        <ModalBody>
+          <div style={{ marginBottom: "1rem", borderRadius: "12px", overflow: "hidden" }}>
+            <video
+              key={videoKey}
+              autoPlay
+              muted
+              loop
+              playsInline
+              controls
+              style={{ width: "100%", display: "block" }}
+            >
+              <source src={BOOKING_VIDEO_SRC} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+
+          <div style={{ textAlign: "center" }}>
+            <p style={{ marginBottom: "1rem", fontSize: "1rem", color: "#333" }}>
+              Watch the experience, then lock in your next appointment.
+            </p>
+
+            <a
+              href={BOOKSY_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none" }}
+            >
+              <Button
+                style={{
+                  background: "#1d7acb",
+                  border: "none",
+                  borderRadius: "999px",
+                  padding: "12px 24px",
+                  fontWeight: "700",
+                }}
+              >
+                Book Now
+              </Button>
+            </a>
+          </div>
+        </ModalBody>
+      </Modal>
+    </>
   );
 }
 
@@ -461,20 +542,26 @@ export default function Home({ products = [], productsError = "" }) {
   const [recaptchaToken, setRecaptchaToken] = useState(null);
   const recaptchaRef = useRef(null);
 
-  const handleNlChange = (e) => setNewsletter({ ...newsletter, [e.target.name]: e.target.value });
+  const handleNlChange = (e) =>
+    setNewsletter({ ...newsletter, [e.target.name]: e.target.value });
 
   const handleNlSubmit = async (e) => {
     e.preventDefault();
 
     if (!recaptchaToken) {
-      setNlStatus({ submitting: false, success: false, error: "Please complete the captcha." });
+      setNlStatus({
+        submitting: false,
+        success: false,
+        error: "Please complete the captcha.",
+      });
       return;
     }
 
     setNlStatus({ submitting: true, success: false, error: "" });
 
     const endpoint = `https://api.hsforms.com/submissions/v3/integration/submit/${HUBSPOT_PORTAL_ID}/${HUBSPOT_FORM_ID}`;
-    const hutk = (document.cookie.match(/(?:^|;\s*)hubspotutk=([^;]*)/) || [])[1] || undefined;
+    const hutk =
+      (document.cookie.match(/(?:^|;\s*)hubspotutk=([^;]*)/) || [])[1] || undefined;
 
     const payload = {
       fields: [
@@ -512,7 +599,11 @@ export default function Home({ products = [], productsError = "" }) {
         });
       }
     } catch (err) {
-      setNlStatus({ submitting: false, success: false, error: err.message || "Network error" });
+      setNlStatus({
+        submitting: false,
+        success: false,
+        error: err.message || "Network error",
+      });
     }
   };
 
@@ -528,7 +619,10 @@ export default function Home({ products = [], productsError = "" }) {
         <Container>
           <Row className="justify-content-center">
             <Col md={12} lg={12} id="products">
-              <h1 className="fw-bold mb-3 welcome-homepahe" style={{ fontSize: "2.3rem", letterSpacing: 1, color: "white" }}>
+              <h1
+                className="fw-bold mb-3 welcome-homepahe"
+                style={{ fontSize: "2.3rem", letterSpacing: 1, color: "white" }}
+              >
                 Welcome to Pure Magic
               </h1>
 
@@ -536,7 +630,12 @@ export default function Home({ products = [], productsError = "" }) {
 
               <ProductsSection products={products} />
               <KokumButter />
-              <PureMagicAttractionSection imageSrc="/attraction.png" titleHighlight="Attraction" titleTrail="Factor" ctaHref="/products" />
+              <PureMagicAttractionSection
+                imageSrc="/attraction.png"
+                titleHighlight="Attraction"
+                titleTrail="Factor"
+                ctaHref="/products"
+              />
             </Col>
           </Row>
         </Container>
@@ -564,7 +663,6 @@ export default function Home({ products = [], productsError = "" }) {
         .py-5 {
           padding-top: 0rem !important;
         }
-
       `}</style>
     </>
   );
