@@ -11,8 +11,6 @@ import {
   Row,
   Col,
   Button,
-  Alert,
-  Spinner,
   Modal,
   ModalBody,
   ModalHeader,
@@ -45,20 +43,23 @@ export async function getServerSideProps() {
   try {
     const data = await shopifyFetch(PRODUCTS_QUERY, { first: 50 });
     const products = data?.products?.edges?.map((e) => e.node) || [];
+
     return { props: { products } };
   } catch (e) {
     return {
-      props: { products: [], productsError: e?.message || "Failed to load products" },
+      props: {
+        products: [],
+        productsError: e?.message || "Failed to load products",
+      },
     };
   }
 }
 
 /**
  * HERO SLIDER
- * - Autoplays with a timer bar (progress)
+ * - Autoplays with a timer bar
  * - Manual prev/next + dots
- * - Background image "like the right one" (cover, centered)
- * - CTA panel on the right (or left on mobile)
+ * - Background image with CTA card overlay
  */
 function HeroSlider() {
   const BOOKSY_LINK =
@@ -67,6 +68,24 @@ function HeroSlider() {
   const BOOKING_VIDEO_SRC = "../../../../video/pure-magic-booking-video.mp4";
 
   const slides = [
+    {
+      id: "s5-cherry",
+      bg: "/images/haircut_hero_image.png",
+      eyebrow: "Financing Available",
+      logo: "/images/cherry-logo-primary.svg",
+      title: "Pay Over Time with Cherry",
+      desc: "Are you interested in paying in installments with Cherry payment plans? Get pre-approved today! Applying won’t harm your credit!",
+      primaryCta: {
+        label: "Get Pre-Approved Today",
+        href: "https://pay.withcherry.com/magic2u-mobile-barber-concierge-llc",
+      },
+      finePrint:
+        "Payment options through Cherry Technologies, Inc. are issued by the following financing partners:",
+      finePrintLink: {
+        label: "Cherry financing partners",
+        href: "https://withcherry.com/financing-partners",
+      },
+    },
     {
       id: "s1",
       bg: "/images/hero_image_home.jpg",
@@ -88,15 +107,15 @@ function HeroSlider() {
       bg: "/images/apperal.png",
       eyebrow: "Apparel",
       title: "Shop Apparel",
-      desc: "Pure Magic Apparel brings clean, confident style—premium tees, hoodies, and hats made for everyday wear. Bold branding, soft feel, and quality fits that match the Pure Magic vibe",
-      primaryCta: { label: "Show Now", href: "/apparel" },
+      desc: "Pure Magic Apparel brings clean, confident style—premium tees, hoodies, and hats made for everyday wear. Bold branding, soft feel, and quality fits that match the Pure Magic vibe.",
+      primaryCta: { label: "Shop Now", href: "/apparel" },
     },
     {
       id: "s4-book",
       bg: "/images/haircut_hero_image.png",
       eyebrow: "Premium Haircuts",
       title: "Schedule Appointment",
-      desc: "The Pure Magic Experience is more than a haircut—it’s a reset. Precision fades, crisp lineups, and detail work in a clean, calm shop. optional beard work, and tips so you stay fresh between visits. Book once—feel the difference Now.",
+      desc: "The Pure Magic Experience is more than a haircut—it’s a reset. Precision fades, crisp lineups, and detail work in a clean, calm shop. Optional beard work and tips so you stay fresh between visits. Book once—feel the difference now.",
       primaryCta: {
         label: "Book Now",
         href: BOOKSY_LINK,
@@ -108,9 +127,10 @@ function HeroSlider() {
       bg: "/images/hero_smp.png",
       eyebrow: "Special Services",
       title: "Scalp Micropigmentation",
-      desc: "Scalp Micropigmentation (SMP) is a non-invasive cosmetic procedure that uses micro-dots of pigment to replicate the appearance of natural hair follicles. ",
-      primaryCta: { label: "learn More", href: "/smp" },
+      desc: "Scalp Micropigmentation (SMP) is a non-invasive cosmetic procedure that uses micro-dots of pigment to replicate the appearance of natural hair follicles.",
+      primaryCta: { label: "Learn More", href: "/smp" },
     },
+ 
   ];
 
   const AUTOPLAY_MS = 6500;
@@ -127,10 +147,11 @@ function HeroSlider() {
   const slideCount = slides.length;
 
   const goTo = (i) => {
-    setIndex((prev) => {
-      const next = (i + slideCount) % slideCount;
-      return next;
+    setIndex(() => {
+      const nextIndex = (i + slideCount) % slideCount;
+      return nextIndex;
     });
+
     setProgress(0);
     startRef.current = null;
   };
@@ -212,8 +233,20 @@ function HeroSlider() {
         {/* Overlay content */}
         <div className="heroInner">
           <div className="ctaCard">
+            {active.logo ? (
+              <div className="slideLogoWrap">
+                <img
+                  src={active.logo}
+                  alt={`${active.title} logo`}
+                  className="slideLogo"
+                />
+              </div>
+            ) : null}
+
             <div className="eyebrow">{active.eyebrow}</div>
+
             <h1 className="heroTitle">{active.title}</h1>
+
             <p className="heroDesc">{active.desc}</p>
 
             <div className="ctaRow">
@@ -226,7 +259,20 @@ function HeroSlider() {
                   {active.primaryCta.label}
                 </button>
               ) : (
-                <a className="btnPrimary" href={active.primaryCta.href}>
+                <a
+                  className="btnPrimary"
+                  href={active.primaryCta.href}
+                  target={
+                    active.primaryCta.href?.startsWith("http")
+                      ? "_blank"
+                      : undefined
+                  }
+                  rel={
+                    active.primaryCta.href?.startsWith("http")
+                      ? "noopener noreferrer"
+                      : undefined
+                  }
+                >
                   {active.primaryCta.label}
                 </a>
               )}
@@ -238,6 +284,21 @@ function HeroSlider() {
               ) : null}
             </div>
 
+            {active.finePrint ? (
+              <p className="finePrint">
+                {active.finePrint}{" "}
+                {active.finePrintLink ? (
+                  <a
+                    href={active.finePrintLink.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {active.finePrintLink.label}
+                  </a>
+                ) : null}
+              </p>
+            ) : null}
+
             {/* Timer / progress */}
             <div className="timerWrap" aria-hidden="true">
               <div className="timerBar" style={{ width: `${progress}%` }} />
@@ -245,7 +306,11 @@ function HeroSlider() {
 
             {/* Controls */}
             <div className="controls">
-              <button className="navBtn" onClick={prev} aria-label="Previous slide">
+              <button
+                className="navBtn"
+                onClick={prev}
+                aria-label="Previous slide"
+              >
                 ‹
               </button>
 
@@ -262,7 +327,11 @@ function HeroSlider() {
                 ))}
               </div>
 
-              <button className="navBtn" onClick={next} aria-label="Next slide">
+              <button
+                className="navBtn"
+                onClick={next}
+                aria-label="Next slide"
+              >
                 ›
               </button>
             </div>
@@ -270,19 +339,12 @@ function HeroSlider() {
         </div>
 
         <style jsx global>{`
-          section.jsx-e1da81568869a5.welcome-section {
-            background: black !important;
-          }
-          section.jsx-f5d78ba41736c05c.welcome-section {
-            background-color: #000;
-        }
-
           .heroSlider {
             position: relative;
             width: 100%;
             height: min(700px, 86vh);
             overflow: hidden;
-            background: #e9f6fa;
+            background: #000;
           }
 
           .heroBg {
@@ -295,7 +357,6 @@ function HeroSlider() {
             filter: saturate(1.02);
           }
 
-          /* subtle dark overlay for text contrast */
           .heroSlider::after {
             content: "";
             position: absolute;
@@ -321,11 +382,21 @@ function HeroSlider() {
 
           .ctaCard {
             width: min(520px, 92vw);
-            background: rgba(255, 255, 255, 0.88);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(8px);
             border-radius: 14px;
             padding: 20px 22px 16px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.28);
+          }
+
+          .slideLogoWrap {
+            margin-bottom: 10px;
+          }
+
+          .slideLogo {
+            max-width: 155px;
+            height: auto;
+            display: block;
           }
 
           .eyebrow {
@@ -395,6 +466,19 @@ function HeroSlider() {
             cursor: pointer;
           }
 
+          .finePrint {
+            font-size: 0.78rem;
+            line-height: 1.45;
+            color: rgba(27, 27, 27, 0.72);
+            margin: 0 0 12px;
+          }
+
+          .finePrint a {
+            color: #203354;
+            font-weight: 800;
+            text-decoration: underline;
+          }
+
           .timerWrap {
             width: 100%;
             height: 6px;
@@ -462,9 +546,15 @@ function HeroSlider() {
               justify-content: center;
               padding: 18px 16px;
             }
+
             .ctaCard {
               padding: 18px 16px 14px;
             }
+
+            .slideLogo {
+              max-width: 135px;
+            }
+
             .controls {
               gap: 10px;
             }
@@ -474,6 +564,7 @@ function HeroSlider() {
             .timerBar {
               transition: none;
             }
+
             .btnPrimary:hover,
             .btnSecondary:hover {
               transform: none;
@@ -484,8 +575,15 @@ function HeroSlider() {
 
       <Modal isOpen={bookModalOpen} toggle={toggleBookModal} centered size="lg">
         <ModalHeader toggle={toggleBookModal}>Book Your Appointment</ModalHeader>
+
         <ModalBody>
-          <div style={{ marginBottom: "1rem", borderRadius: "12px", overflow: "hidden" }}>
+          <div
+            style={{
+              marginBottom: "1rem",
+              borderRadius: "12px",
+              overflow: "hidden",
+            }}
+          >
             <video
               key={videoKey}
               autoPlay
@@ -501,7 +599,13 @@ function HeroSlider() {
           </div>
 
           <div style={{ textAlign: "center" }}>
-            <p style={{ marginBottom: "1rem", fontSize: "1rem", color: "#333" }}>
+            <p
+              style={{
+                marginBottom: "1rem",
+                fontSize: "1rem",
+                color: "#333",
+              }}
+            >
               Watch the experience, then lock in your next appointment.
             </p>
 
@@ -531,14 +635,22 @@ function HeroSlider() {
 }
 
 export default function Home({ products = [], productsError = "" }) {
-  // HubSpot / reCAPTCHA constants
   const HUBSPOT_PORTAL_ID = "243400623";
   const HUBSPOT_FORM_ID = "1712ae97-5882-46c9-a06e-8a3daed3511b";
   const RECAPTCHA_SITE_KEY = "6LeQUZ8rAAAAAGSsXvs6u2QdeamqIiofil95StUo";
 
-  // Newsletter state (unchanged)
-  const [newsletter, setNewsletter] = useState({ firstName: "", lastName: "", email: "" });
-  const [nlStatus, setNlStatus] = useState({ submitting: false, success: false, error: "" });
+  const [newsletter, setNewsletter] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+  });
+
+  const [nlStatus, setNlStatus] = useState({
+    submitting: false,
+    success: false,
+    error: "",
+  });
+
   const [recaptchaToken, setRecaptchaToken] = useState(null);
   const recaptchaRef = useRef(null);
 
@@ -560,8 +672,10 @@ export default function Home({ products = [], productsError = "" }) {
     setNlStatus({ submitting: true, success: false, error: "" });
 
     const endpoint = `https://api.hsforms.com/submissions/v3/integration/submit/${HUBSPOT_PORTAL_ID}/${HUBSPOT_FORM_ID}`;
+
     const hutk =
-      (document.cookie.match(/(?:^|;\s*)hubspotutk=([^;]*)/) || [])[1] || undefined;
+      (document.cookie.match(/(?:^|;\s*)hubspotutk=([^;]*)/) || [])[1] ||
+      undefined;
 
     const payload = {
       fields: [
@@ -572,7 +686,8 @@ export default function Home({ products = [], productsError = "" }) {
       hs_recaptcha_response: recaptchaToken,
       context: {
         pageUri: typeof window !== "undefined" ? window.location.href : "",
-        pageName: typeof document !== "undefined" ? document.title : "Contact",
+        pageName:
+          typeof document !== "undefined" ? document.title : "Contact",
         ...(hutk ? { hutk } : {}),
       },
     };
@@ -595,7 +710,10 @@ export default function Home({ products = [], productsError = "" }) {
         setNlStatus({
           submitting: false,
           success: false,
-          error: body?.errors?.[0]?.message || body?.message || "Submission failed.",
+          error:
+            body?.errors?.[0]?.message ||
+            body?.message ||
+            "Submission failed.",
         });
       }
     } catch (err) {
@@ -621,15 +739,23 @@ export default function Home({ products = [], productsError = "" }) {
             <Col md={12} lg={12} id="products">
               <h1
                 className="fw-bold mb-3 welcome-homepahe"
-                style={{ fontSize: "2.3rem", letterSpacing: 1, color: "white" }}
+                style={{
+                  fontSize: "2.3rem",
+                  letterSpacing: 1,
+                  color: "white",
+                }}
               >
                 Welcome to Pure Magic
               </h1>
 
-              {productsError ? <p style={{ color: "crimson" }}>{productsError}</p> : null}
+              {productsError ? (
+                <p style={{ color: "crimson" }}>{productsError}</p>
+              ) : null}
 
               <ProductsSection products={products} />
+
               <KokumButter />
+
               <PureMagicAttractionSection
                 imageSrc="/attraction.png"
                 titleHighlight="Attraction"
@@ -649,17 +775,40 @@ export default function Home({ products = [], productsError = "" }) {
           margin: 0;
           padding: 0;
         }
+
+        html,
+        body {
+          background: #000;
+        }
+
         body {
           font-family: "Helvetica Neue", Arial, sans-serif;
           line-height: 1.6;
+          color: #fff;
         }
+
         a {
           text-decoration: none;
           color: inherit;
         }
+
         section {
           padding: 60px 40px;
+          background-color: #000;
         }
+
+        .welcome-section {
+          background: #000 !important;
+          color: #fff;
+        }
+
+        .welcome-section .container,
+        .welcome-section .row,
+        .welcome-section .col,
+        .welcome-section [class*="col-"] {
+          background: transparent !important;
+        }
+
         .py-5 {
           padding-top: 0rem !important;
         }
