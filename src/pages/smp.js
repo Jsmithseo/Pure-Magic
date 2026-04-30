@@ -440,6 +440,84 @@ export default function SMPPage() {
         </Container>
       </section>
 
+            {/* CHERRY PAYMENT PLANS */}
+            <section className="py-5" style={{ backgroundColor: "#f7fafd" }}>
+        <Container>
+          <Row className="justify-content-center">
+            <Col md={11} lg={9}>
+              <Card className="shadow-sm border-0 rounded-4 overflow-hidden">
+                <CardBody className="p-4 p-md-5 text-center">
+                  <Badge
+                    pill
+                    className="mb-4"
+                    style={{
+                      background: "#111",
+                      color: "#fff",
+                      fontSize: 15,
+                      padding: "10px 16px",
+                    }}
+                  >
+                    FLEXIBLE PAYMENT OPTIONS
+                  </Badge>
+
+                  <h2
+                    className="fw-bold mb-3"
+                    style={{ fontSize: "2.3rem" }}
+                  >
+                    Pay Over Time with Cherry Payment Plans
+                  </h2>
+
+                  <p
+                    className="text-muted mb-4"
+                    style={{
+                      fontSize: "1.18rem",
+                      lineHeight: 1.8,
+                      maxWidth: 760,
+                      margin: "0 auto",
+                    }}
+                  >
+                    Interested in paying in installments? Pure Magic customers
+                    can apply for Cherry payment plans and get pre-approved
+                    today. Applying is simple, fast, and won’t harm your credit.
+                  </p>
+
+                  <a
+                    href="https://pay.withcherry.com/magic2u-mobile-barber-concierge-llc"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-dark btn-lg rounded-pill px-4 py-3 fw-semibold"
+                  >
+                    Get Pre-Approved Today
+                  </a>
+
+                  <p
+                    className="text-muted mt-4 mb-0"
+                    style={{
+                      fontSize: ".95rem",
+                      lineHeight: 1.7,
+                      maxWidth: 780,
+                      margin: "0 auto",
+                    }}
+                  >
+                    Payment options through Cherry Technologies, Inc. are issued
+                    by the following financing partners:{" "}
+                    <a
+                      href="https://withcherry.com/financing-partners"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="fw-semibold text-dark"
+                    >
+                      Cherry financing partners
+                    </a>
+                    .
+                  </p>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+
       {/* SERVICE AREAS */}
       <section className="smpSection smpSectionLight">
         <Container>
