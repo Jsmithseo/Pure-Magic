@@ -105,6 +105,12 @@ const MainNavBar = () => {
             </NavItem>
 
             <NavItem>
+              <Link href="/units" className="nav-link" style={navLinkStyle}>
+                Units
+              </Link>
+            </NavItem>
+
+            <NavItem>
               <Link href="/about" className="nav-link" style={navLinkStyle}>
                 About Us
               </Link>

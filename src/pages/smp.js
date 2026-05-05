@@ -441,7 +441,7 @@ export default function SMPPage() {
       </section>
 
             {/* CHERRY PAYMENT PLANS */}
-            <section className="py-5" style={{ backgroundColor: "#f7fafd" }}>
+      <section className="py-5" style={{ backgroundColor: "#f7fafd" }}>
         <Container>
           <Row className="justify-content-center">
             <Col md={11} lg={9}>
@@ -509,7 +509,7 @@ export default function SMPPage() {
                     >
                       Cherry financing partners
                     </a>
-                    .
+                  
                   </p>
                 </CardBody>
               </Card>
