@@ -87,6 +87,18 @@ function HeroSlider() {
       },
     },
     {
+      id: "s6-hair-units",
+      bg: "/images/before_after_hair_unit.png",
+      eyebrow: "Non-Surgical Hair Units",
+      title: "Restore Your Look with Pure Magic",
+      desc: "A clean, natural-looking transformation without surgery. Pure Magic hair units are designed to restore confidence with a sharp hairline, full coverage, and a polished finish.",
+      primaryCta: {
+        label: "Book Consultation",
+        href: BOOKSY_LINK,
+        opensModal: true,
+      },
+    },
+    {
       id: "s1",
       bg: "/images/hero_image_home.jpg",
       eyebrow: "Pure Magic",
