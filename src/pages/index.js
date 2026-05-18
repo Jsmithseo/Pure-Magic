@@ -65,7 +65,11 @@ function HeroSlider() {
   const BOOKSY_LINK =
     "https://booksy.com/en-us/62767_magic2u-barbershop-supplies_barber-shop_134730_oakland?do=invite&_branch_match_id=1191497502955395994&utm_medium=merchant_customer_invite&_branch_referrer=H4sIAAAAAAAAA8soKSkottLXT07J0UvKz88urtRLzs%2FVzzIuTg3PyzZMyk0CABTJuv4&utm_source=ig&utm_content=link_in_bio";
 
-  const BOOKING_VIDEO_SRC = "../../../../video/pure-magic-booking-video.mp4";
+  const BOOKING_VIDEO_SRC =
+    "../../../../video/pure-magic-booking-video.mp4";
+
+  const BUTTER_VIDEO_SRC =
+    "../../../../video/pure-magic-butter-video.mp4";
 
   const slides = [
     {
@@ -79,12 +83,6 @@ function HeroSlider() {
         label: "Get Pre-Approved Today",
         href: "https://pay.withcherry.com/magic2u-mobile-barber-concierge-llc",
       },
-      finePrint:
-        "Payment options through Cherry Technologies, Inc. are issued by the following financing partners:",
-      finePrintLink: {
-        label: "Cherry financing partners",
-        href: "https://withcherry.com/financing-partners",
-      },
     },
     {
       id: "s6-hair-units",
@@ -96,6 +94,7 @@ function HeroSlider() {
         label: "Book Consultation",
         href: BOOKSY_LINK,
         opensModal: true,
+        videoSrc: BOOKING_VIDEO_SRC,
       },
     },
     {
@@ -104,7 +103,12 @@ function HeroSlider() {
       eyebrow: "Pure Magic",
       title: "Whipped Body Butter",
       desc: "Rich hydration that keeps skin soft, smooth, and glowing. Clean feel, non-greasy finish, light scent—made for everyday moisture you can feel.",
-      primaryCta: { label: "Shop", href: "/#products" },
+      primaryCta: {
+        label: "Shop",
+        href: "/#products",
+        opensModal: true,
+        videoSrc: BUTTER_VIDEO_SRC,
+      },
     },
     {
       id: "s1-oils",
@@ -132,6 +136,7 @@ function HeroSlider() {
         label: "Book Now",
         href: BOOKSY_LINK,
         opensModal: true,
+        videoSrc: BOOKING_VIDEO_SRC,
       },
     },
     {
@@ -142,7 +147,6 @@ function HeroSlider() {
       desc: "Scalp Micropigmentation (SMP) is a non-invasive cosmetic procedure that uses micro-dots of pigment to replicate the appearance of natural hair follicles.",
       primaryCta: { label: "Learn More", href: "/smp" },
     },
- 
   ];
 
   const AUTOPLAY_MS = 6500;
@@ -152,6 +156,7 @@ function HeroSlider() {
   const [progress, setProgress] = useState(0);
   const [bookModalOpen, setBookModalOpen] = useState(false);
   const [videoKey, setVideoKey] = useState(0);
+  const [activeVideoSrc, setActiveVideoSrc] = useState(BOOKING_VIDEO_SRC);
 
   const rafRef = useRef(null);
   const startRef = useRef(null);
@@ -170,7 +175,11 @@ function HeroSlider() {
 
   const next = () => goTo(index + 1);
   const prev = () => goTo(index - 1);
-  const toggleBookModal = () => setBookModalOpen((prevState) => !prevState);
+
+  const toggleBookModal = (videoSrc = BOOKING_VIDEO_SRC) => {
+    setActiveVideoSrc(videoSrc);
+    setBookModalOpen((prevState) => !prevState);
+  };
 
   useEffect(() => {
     const tick = (ts) => {
@@ -266,7 +275,9 @@ function HeroSlider() {
                 <button
                   type="button"
                   className="btnPrimary btnPrimaryReset"
-                  onClick={toggleBookModal}
+                  onClick={() =>
+                    toggleBookModal(active.primaryCta.videoSrc)
+                  }
                 >
                   {active.primaryCta.label}
                 </button>
@@ -584,159 +595,98 @@ function HeroSlider() {
           }
         `}</style>
       </section>
-
       <Modal isOpen={bookModalOpen} toggle={toggleBookModal} centered size="lg">
-        <ModalHeader toggle={toggleBookModal}>Book Your Appointment</ModalHeader>
+  <ModalHeader toggle={toggleBookModal}>
+    {active.id === "s1" ? "Shop Pure Magic Butter" : "Book Your Appointment"}
+  </ModalHeader>
 
-        <ModalBody>
-          <div
+  <ModalBody>
+    <div
+      style={{
+        marginBottom: "1rem",
+        borderRadius: "12px",
+        overflow: "hidden",
+        maxHeight: "520px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        background: "#000",
+      }}
+    >
+      <video
+        key={videoKey}
+        autoPlay
+        muted
+        loop
+        playsInline
+        controls
+        style={{
+          width: "100%",
+          maxHeight: "520px",
+          objectFit: "cover",
+          display: "block",
+        }}
+      >
+        <source src={activeVideoSrc} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <div style={{ textAlign: "center" }}>
+      <p
+        style={{
+          marginBottom: "1rem",
+          fontSize: "1rem",
+          color: "#333",
+        }}
+      >
+        {active.id === "s1"
+          ? "Watch the Pure Magic Butter experience, then shop the collection."
+          : "Watch the experience, then lock in your next appointment."}
+      </p>
+
+      {active.id === "s1" ? (
+        <a href="/#products" style={{ textDecoration: "none" }}>
+          <Button
             style={{
-              marginBottom: "1rem",
-              borderRadius: "12px",
-              overflow: "hidden",
+              background: "#1d7acb",
+              border: "none",
+              borderRadius: "999px",
+              padding: "12px 24px",
+              fontWeight: "700",
             }}
           >
-            <video
-              key={videoKey}
-              autoPlay
-              muted
-              loop
-              playsInline
-              controls
-              style={{ width: "100%", display: "block" }}
-            >
-              <source src={BOOKING_VIDEO_SRC} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-
-          <div style={{ textAlign: "center" }}>
-            <p
-              style={{
-                marginBottom: "1rem",
-                fontSize: "1rem",
-                color: "#333",
-              }}
-            >
-              Watch the experience, then lock in your next appointment.
-            </p>
-
-            <a
-              href={BOOKSY_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ textDecoration: "none" }}
-            >
-              <Button
-                style={{
-                  background: "#1d7acb",
-                  border: "none",
-                  borderRadius: "999px",
-                  padding: "12px 24px",
-                  fontWeight: "700",
-                }}
-              >
-                Book Now
-              </Button>
-            </a>
-          </div>
-        </ModalBody>
-      </Modal>
+            Shop Now
+          </Button>
+        </a>
+      ) : (
+        <a
+          href={BOOKSY_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: "none" }}
+        >
+          <Button
+            style={{
+              background: "#1d7acb",
+              border: "none",
+              borderRadius: "999px",
+              padding: "12px 24px",
+              fontWeight: "700",
+            }}
+          >
+            Book Now
+          </Button>
+        </a>
+      )}
+    </div>
+  </ModalBody>
+</Modal>
     </>
   );
 }
 
 export default function Home({ products = [], productsError = "" }) {
-  const HUBSPOT_PORTAL_ID = "243400623";
-  const HUBSPOT_FORM_ID = "1712ae97-5882-46c9-a06e-8a3daed3511b";
-  const RECAPTCHA_SITE_KEY = "6LeQUZ8rAAAAAGSsXvs6u2QdeamqIiofil95StUo";
-
-  const [newsletter, setNewsletter] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-  });
-
-  const [nlStatus, setNlStatus] = useState({
-    submitting: false,
-    success: false,
-    error: "",
-  });
-
-  const [recaptchaToken, setRecaptchaToken] = useState(null);
-  const recaptchaRef = useRef(null);
-
-  const handleNlChange = (e) =>
-    setNewsletter({ ...newsletter, [e.target.name]: e.target.value });
-
-  const handleNlSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!recaptchaToken) {
-      setNlStatus({
-        submitting: false,
-        success: false,
-        error: "Please complete the captcha.",
-      });
-      return;
-    }
-
-    setNlStatus({ submitting: true, success: false, error: "" });
-
-    const endpoint = `https://api.hsforms.com/submissions/v3/integration/submit/${HUBSPOT_PORTAL_ID}/${HUBSPOT_FORM_ID}`;
-
-    const hutk =
-      (document.cookie.match(/(?:^|;\s*)hubspotutk=([^;]*)/) || [])[1] ||
-      undefined;
-
-    const payload = {
-      fields: [
-        { name: "email", value: newsletter.email },
-        { name: "firstname", value: newsletter.firstName },
-        { name: "lastname", value: newsletter.lastName },
-      ],
-      hs_recaptcha_response: recaptchaToken,
-      context: {
-        pageUri: typeof window !== "undefined" ? window.location.href : "",
-        pageName:
-          typeof document !== "undefined" ? document.title : "Contact",
-        ...(hutk ? { hutk } : {}),
-      },
-    };
-
-    try {
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const body = await res.json();
-
-      if (res.ok) {
-        setNlStatus({ submitting: false, success: true, error: "" });
-        setNewsletter({ firstName: "", lastName: "", email: "" });
-        setRecaptchaToken(null);
-        recaptchaRef.current?.reset();
-      } else {
-        setNlStatus({
-          submitting: false,
-          success: false,
-          error:
-            body?.errors?.[0]?.message ||
-            body?.message ||
-            "Submission failed.",
-        });
-      }
-    } catch (err) {
-      setNlStatus({
-        submitting: false,
-        success: false,
-        error: err.message || "Network error",
-      });
-    }
-  };
-
   return (
     <>
       <MainNavBar />
