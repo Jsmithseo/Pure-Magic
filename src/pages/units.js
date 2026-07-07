@@ -103,6 +103,49 @@ export default function HairUnitsPage() {
 
       <MainNavBar />
 
+      {/* HERO GRAPHIC */}
+      <section className="heroGraphicSection">
+        <Container fluid className="p-0">
+          <div className="heroGraphicWrap">
+            <img
+              src="/images/hair-units-hero-banner.jpg"
+              alt="Pure Magic non-surgical hair units transformation"
+              className="heroGraphic"
+            />
+
+            <div className="heroGraphicOverlay">
+              <div className="heroGraphicContent">
+                <p className="heroGraphicKicker">Pure Magic</p>
+
+                <h2 className="heroGraphicTitle">
+                  Natural Looking Hair Units Designed to Restore Confidence
+                </h2>
+
+                <p className="heroGraphicText">
+                  Premium installs, structured maintenance, and a clean finish
+                  built for long-term confidence.
+                </p>
+
+                <div className="heroGraphicActions">
+                  <a className="btnGold" href="/contact">
+                    BOOK CONSULTATION
+                  </a>
+
+                  <a
+                    className="btnOutline"
+                    href="https://pay.withcherry.com/magic2u-mobile-barber-concierge-llc"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    FINANCING AVAILABLE
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
       <section className="huHero">
         <Container>
           <Row className="align-items-center g-4">
